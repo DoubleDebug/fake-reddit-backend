@@ -1,0 +1,26 @@
+{
+    "name": "fake-server-backend",
+    "version": "1.0.0",
+    "type": "module",
+    "description": "React clone backend",
+    "main": "index.js",
+    "scripts": {
+        "build": "rimraf ./build && tsc",
+        "start": "npm run build && node ./build/server.js",
+        "dev": "nodemon"
+    },
+    "author": "Double Debug",
+    "license": "ISC",
+    "devDependencies": {
+        "@types/express": "^4.17.13",
+        "@types/node": "^17.0.4",
+        "nodemon": "^2.0.15",
+        "rimraf": "^3.0.2",
+        "ts-node": "^10.4.0",
+        "typescript": "^4.5.4"
+    },
+    "dependencies": {
+        "dotenv": "^10.0.0",
+        "express": "^4.17.2"
+    }
+}
