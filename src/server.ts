@@ -1,13 +1,13 @@
-import express, { Request, Response } from 'express';
-import { CONFIG } from './config.js';
+import express from 'express';
+import { CONFIG } from './utils/setupConfig.js';
+import { getUserPhotoURL } from './endpoints/getUserPhotoURL.js';
+import { setupMiddleware } from './utils/setupMiddleware.js';
 
 const app = express();
-app.use(express.json());
+setupMiddleware(app);
 
 // ROUTES
-app.get('/', (_req: Request, res: Response) => {
-    res.send('Test');
-});
+app.get('/getUserPhotoURL/:uid', getUserPhotoURL);
 
 // STARTING SERVER
 app.listen(CONFIG.PORT, CONFIG.HOSTNAME, () => {

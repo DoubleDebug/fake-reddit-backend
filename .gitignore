@@ -9,6 +9,9 @@
 # production
 /build
 
+# firebase
+serviceAccountKey.json
+
 # misc
 .DS_Store
 .rest
