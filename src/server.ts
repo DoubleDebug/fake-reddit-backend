@@ -2,12 +2,14 @@ import express from 'express';
 import { CONFIG } from './utils/setupConfig.js';
 import { getUserPhotoURL } from './endpoints/getUserPhotoURL.js';
 import { setupMiddleware } from './utils/setupMiddleware.js';
+import { getPosts } from './endpoints/getPosts.js';
 
 const app = express();
 setupMiddleware(app);
 
 // ROUTES
-app.get('/getUserPhotoURL/:uid', getUserPhotoURL);
+app.get('/userPhotoURL/:uid', getUserPhotoURL);
+app.get('/postsWithOffset', getPosts);
 
 // STARTING SERVER
 app.listen(CONFIG.PORT, CONFIG.HOSTNAME, () => {

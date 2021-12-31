@@ -1,8 +1,12 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { getAuth } from 'firebase-admin/auth';
 import { firebaseApp } from '../utils/setupConfig.js';
 
-export async function getUserPhotoURL(req: Request, res: Response) {
+export async function getUserPhotoURL(
+    req: Request,
+    res: Response,
+    next: NextFunction
+) {
     const uid = req.params.uid;
 
     if (!uid || uid === '') {
@@ -26,4 +30,6 @@ export async function getUserPhotoURL(req: Request, res: Response) {
             message: JSON.stringify(error.message),
         });
     }
+
+    next();
 }
