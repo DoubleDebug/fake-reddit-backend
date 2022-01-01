@@ -5,8 +5,8 @@ import { snapshotToData } from '../utils/snapshotToData.js';
 
 /**
  * OPTIONAL QUERY PARAMETERS:
- * - offest
- * - limit
+ * - offset (default value: 0)
+ * - limit (default value: 3)
  */
 export async function getPosts(
     req: Request,

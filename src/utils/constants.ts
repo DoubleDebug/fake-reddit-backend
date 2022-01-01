@@ -6,3 +6,4 @@ export const DB_COLLECTIONS = {
     POSTS: 'posts',
     USERS: 'users',
 };
+export const DELETE_BATCH_SIZE = 100;
