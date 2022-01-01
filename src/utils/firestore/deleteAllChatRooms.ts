@@ -12,8 +12,12 @@ export async function deleteCollection(collectionName: string): Promise<void> {
     const collectionRef = db.collection(collectionName);
     const query = collectionRef.orderBy('createdAt').limit(DELETE_BATCH_SIZE);
 
-    return new Promise((resolve, reject) => {
-        deleteQueryBatch(db, query, resolve as () => void).catch(reject);
+    return new Promise(() => {
+        const resolve = () =>
+            console.log('Successfully deleted chatRooms collection.');
+        const reject = () =>
+            console.log('Failed to  delete chatRooms collection.');
+        deleteQueryBatch(db, query, resolve).catch(reject);
     });
 }
 
