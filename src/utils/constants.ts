@@ -4,6 +4,7 @@ export const DB_COLLECTIONS = {
     COMMENTS: 'comments',
     METADATA: 'metadata',
     POSTS: 'posts',
+    SUBREDDITS: 'subreddits',
     USERS: 'users',
 };
 export const DELETE_BATCH_SIZE = 100;

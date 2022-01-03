@@ -12,7 +12,7 @@ setupMiddleware(app);
 
 // ROUTES
 app.get('/userPhotoURL/:uid', getUserPhotoURL);
-app.get('/posts', getPosts);
+app.get('/feed', getPosts);
 
 // STARTING SERVER
 app.listen(CONFIG.PORT, CONFIG.HOSTNAME, () => {
