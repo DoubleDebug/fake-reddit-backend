@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { getFirestore } from 'firebase-admin/firestore';
 import { DB_COLLECTIONS, POSTS_PER_PAGE } from '../utils/constants.js';
-import { doesSubredditExist } from '../utils/firestore/doesSubredditExist.js';
-import { snapshotToData } from '../utils/snapshotToData.js';
+import { doesDocumentExist } from '../utils/firestore/doesDocumentExist.js';
+import { snapshotToData } from '../utils/firestore/snapshotToData.js';
 
 /**
  * OPTIONAL QUERY PARAMETERS:
@@ -21,18 +21,23 @@ export async function getPosts(
 
     // check if subreddit exists
     const db = getFirestore();
-    const subredditExists = doesSubredditExist(db, subreddit);
-    if (!subredditExists) {
+    const subredditExists = await doesDocumentExist(
+        db,
+        DB_COLLECTIONS.SUBREDDITS,
+        subreddit
+    );
+    if (subreddit && (!subredditExists || subreddit.length < 3)) {
         res.status(400).send({
             success: false,
             message: 'Bad parameter: subreddit.',
         });
+        return;
     }
 
     try {
         let postsSnapshot: any = db.collection(DB_COLLECTIONS.POSTS);
 
-        if (subreddit && subredditExists) {
+        if (subreddit) {
             postsSnapshot = postsSnapshot.where('subreddit', '==', subreddit);
         }
 
@@ -47,6 +52,7 @@ export async function getPosts(
             success: true,
             data: data,
         });
+        next();
     } catch (error) {
         console.log(error);
         res.status(500).send({
@@ -54,6 +60,4 @@ export async function getPosts(
             message: 'Failed to fetch posts data from the Firestore database.',
         });
     }
-
-    next();
 }
