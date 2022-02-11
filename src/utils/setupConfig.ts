@@ -5,6 +5,7 @@ import { applicationDefault, initializeApp } from 'firebase-admin/app';
 dotenv.config();
 export const firebaseApp = initializeApp({
     credential: applicationDefault(),
+    storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
 });
 
 // setup environment variables

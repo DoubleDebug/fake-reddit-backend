@@ -11,7 +11,16 @@ export async function auth(req: Request, res: Response, next: NextFunction) {
         return;
     }
 
-    const decodedToken = await getAuth().verifyIdToken(idToken);
+    const decodedToken = await getAuth()
+        .verifyIdToken(idToken)
+        .catch(() => {
+            res.status(403).send({
+                success: false,
+                message: 'Unauthorized request.',
+            });
+            return;
+        });
+
     if (decodedToken) {
         next();
     } else {

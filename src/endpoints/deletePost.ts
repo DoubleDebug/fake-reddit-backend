@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { getFirestore } from 'firebase-admin/firestore';
+import { getStorage } from 'firebase-admin/storage';
 import { DB_COLLECTIONS } from '../utils/constants.js';
 import { deleteQueryBatch } from '../utils/firestore/deleteQueryBatch.js';
-import { doesDocumentExist } from '../utils/firestore/doesDocumentExist.js';
 
 export async function deletePost(
     req: Request,
@@ -11,18 +11,14 @@ export async function deletePost(
 ) {
     const db = getFirestore();
     const postId = req.query.postId && String(req.query.postId);
-    const postExists = await doesDocumentExist(
-        db,
-        DB_COLLECTIONS.POSTS,
-        postId
-    );
-    if (!postExists) {
+    if (!postId) {
         res.status(400).send({
             success: false,
             message: 'Bad query parameter: postId.',
         });
         return;
     }
+    const post = await db.collection(DB_COLLECTIONS.POSTS).doc(postId).get();
 
     try {
         // delete post
@@ -53,6 +49,15 @@ export async function deletePost(
                 message:
                     'Failed to delete comments from Firestore. ' +
                     JSON.stringify(error),
+            });
+        });
+
+        // delete content files
+        const storage = getStorage().bucket();
+        const contentFiles = post.data()?.contentFiles;
+        contentFiles.map((filePath: string) => {
+            storage.file(filePath).delete({}, () => {
+                console.log(`Successfully deleted file: ${filePath}.`);
             });
         });
 
