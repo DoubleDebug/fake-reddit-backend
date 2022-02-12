@@ -8,6 +8,7 @@ import { auth } from './utils/middleware/auth.js';
 import { getUserPhotoURL } from './endpoints/getUserPhotoURL.js';
 import { getPosts } from './endpoints/getPosts.js';
 import { deletePost } from './endpoints/deletePost.js';
+import { deleteFile } from './endpoints/deleteFile.js';
 
 const app = express();
 setupMiddleware(app);
@@ -16,6 +17,7 @@ setupMiddleware(app);
 app.get('/userPhotoURL/:uid', getUserPhotoURL);
 app.get('/feed', getPosts);
 app.delete('/deletePost', auth, deletePost);
+app.delete('/deleteFile', auth, deleteFile);
 
 // STARTING SERVER
 app.listen(CONFIG.PORT, CONFIG.HOSTNAME, () => {
