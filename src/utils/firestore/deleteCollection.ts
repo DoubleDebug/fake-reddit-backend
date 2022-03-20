@@ -1,5 +1,5 @@
 import { getFirestore } from 'firebase-admin/firestore';
-import { DELETE_BATCH_SIZE } from '../constants.js';
+import { DELETE_BATCH_SIZE } from '../misc/constants.js';
 import { deleteQueryBatch } from './deleteQueryBatch.js';
 
 /**

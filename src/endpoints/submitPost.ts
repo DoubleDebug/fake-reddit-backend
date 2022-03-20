@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { FieldValue, getFirestore, Timestamp } from 'firebase-admin/firestore';
-import { DB_COLLECTIONS } from '../utils/constants.js';
+import { initAlgolia } from '../utils/misc/init.js';
+import { DB_COLLECTIONS } from '../utils/misc/constants.js';
 
 export async function submitPost(
     req: Request,
@@ -43,6 +44,29 @@ export async function submitPost(
                 console.log('Failed to update counter document to Firestore.');
                 console.error(error);
             });
+
+        // add document to Algolia
+        const index = initAlgolia('posts');
+        if (!index) console.log('Failed to initialize Algolia client.');
+        index
+            ?.saveObject(
+                {
+                    id: postRes.id,
+                    title: postData.title,
+                    content: postData.content,
+                    author: postData.author,
+                    createdAt: new Date().toISOString().slice(0, 10),
+                },
+                {
+                    autoGenerateObjectIDIfNotExist: true,
+                }
+            )
+            .then(() =>
+                console.log('Successfully added a document to Algolia.')
+            )
+            .catch((err) =>
+                console.log('Failed to add a document to Algolia.', err)
+            );
 
         console.log(
             `Successfully added a post with the following ID: ${postRes.id}.`

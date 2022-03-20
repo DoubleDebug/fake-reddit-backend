@@ -1,9 +1,9 @@
 import express from 'express';
 import cron from 'node-cron';
-import { CONFIG } from './utils/setupConfig.js';
-import { DB_COLLECTIONS } from './utils/constants.js';
+import { CONFIG } from './utils/misc/setupConfig.js';
+import { DB_COLLECTIONS } from './utils/misc/constants.js';
 import { deleteCollection } from './utils/firestore/deleteCollection.js';
-import { setupMiddleware } from './utils/setupMiddleware.js';
+import { setupMiddleware } from './utils/misc/setupMiddleware.js';
 import { auth } from './utils/middleware/auth.js';
 import { getUserPhotoURL } from './endpoints/getUserPhotoURL.js';
 import { getPosts } from './endpoints/getPosts.js';

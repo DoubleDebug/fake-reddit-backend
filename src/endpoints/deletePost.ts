@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { getFirestore } from 'firebase-admin/firestore';
 import { getStorage } from 'firebase-admin/storage';
-import { DB_COLLECTIONS } from '../utils/constants.js';
+import { initAlgolia } from '../utils/misc/init.js';
+import { DB_COLLECTIONS } from '../utils/misc/constants.js';
 import { deleteQueryBatch } from '../utils/firestore/deleteQueryBatch.js';
 
 export async function deletePost(
@@ -60,6 +61,19 @@ export async function deletePost(
                 console.log(`Successfully deleted file: ${filePath}.`);
             });
         });
+
+        // delete post from Algolia
+        const index = initAlgolia('posts');
+        index
+            ?.deleteBy({
+                filters: `id:"${postId}"`,
+            })
+            .then(() =>
+                console.log('Successfully deleted document from Algolia.')
+            )
+            .catch((error) =>
+                console.log('Failed to delete document from Algolia.', error)
+            );
 
         res.status(200).send({
             success: true,

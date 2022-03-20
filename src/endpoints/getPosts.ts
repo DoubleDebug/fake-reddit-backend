@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { getFirestore } from 'firebase-admin/firestore';
-import { DB_COLLECTIONS, POSTS_PER_PAGE } from '../utils/constants.js';
+import { DB_COLLECTIONS, POSTS_PER_PAGE } from '../utils/misc/constants.js';
 import { doesDocumentExist } from '../utils/firestore/doesDocumentExist.js';
 import { snapshotToData } from '../utils/firestore/snapshotToData.js';
 

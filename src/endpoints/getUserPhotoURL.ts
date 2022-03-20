@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { getAuth } from 'firebase-admin/auth';
-import { firebaseApp } from '../utils/setupConfig.js';
+import { firebaseApp } from '../utils/misc/setupConfig.js';
 
 export async function getUserPhotoURL(
     req: Request,
