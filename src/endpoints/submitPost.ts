@@ -56,6 +56,7 @@ export async function submitPost(
                     content: postData.content,
                     author: postData.author,
                     createdAt: new Date().toISOString().slice(0, 10),
+                    subreddit: postData.subreddit,
                 },
                 {
                     autoGenerateObjectIDIfNotExist: true,
