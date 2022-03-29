@@ -26,8 +26,8 @@ app.listen(CONFIG.PORT, CONFIG.HOSTNAME, () => {
     console.log(`Server started at http://${CONFIG.HOSTNAME}:${CONFIG.PORT}`);
 });
 
-// FIRESTORE MAINTENANCE
-cron.schedule('0 0 * * 1', async () => {
-    // delete chat rooms collection every Monday
-    await deleteCollection(DB_COLLECTIONS.CHAT_ROOMS);
-});
+// // FIRESTORE MAINTENANCE
+// cron.schedule('0 0 * * 1', async () => {
+//     // delete chat rooms collection every Monday
+//     await deleteCollection(DB_COLLECTIONS.CHAT_ROOMS);
+// });
