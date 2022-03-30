@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { getFirestore } from 'firebase-admin/firestore';
 import { getStorage } from 'firebase-admin/storage';
-import { initAlgolia } from '../utils/misc/init.js';
+import { initAlgolia } from '../utils/misc/initAlgolia.js';
 import { DB_COLLECTIONS } from '../utils/misc/constants.js';
 import { deleteQueryBatch } from '../utils/firestore/deleteQueryBatch.js';
 

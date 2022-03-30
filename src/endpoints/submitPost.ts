@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { FieldValue, getFirestore, Timestamp } from 'firebase-admin/firestore';
-import { initAlgolia } from '../utils/misc/init.js';
+import { initAlgolia } from '../utils/misc/initAlgolia.js';
 import { DB_COLLECTIONS } from '../utils/misc/constants.js';
 
 export async function submitPost(
