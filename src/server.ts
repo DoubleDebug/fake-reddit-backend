@@ -9,6 +9,7 @@ import { deleteFile } from './endpoints/deleteFile.js';
 import { submitPost } from './endpoints/submitPost.js';
 import { deleteUnusedFiles } from './utils/firestore/deleteUnusedFiles.js';
 import cron from 'node-cron';
+import { registerUser } from './endpoints/registerUser.js';
 
 const app = express();
 setupMiddleware(app);
@@ -19,6 +20,7 @@ app.get('/feed', getPosts);
 app.delete('/deletePost', auth, deletePost);
 app.delete('/deleteFile', auth, deleteFile);
 app.post('/submitPost', auth, submitPost);
+app.post('/registerUser', auth, registerUser);
 
 // STARTING SERVER
 app.listen(CONFIG.PORT, CONFIG.HOSTNAME, () => {
