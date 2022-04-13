@@ -10,7 +10,7 @@ export async function getUserPhotoURL(
     const uid = req.params.uid;
 
     if (!uid || uid === '') {
-        res.status(400).send({
+        res.send({
             success: false,
             message: 'User with provided ID does not exist.',
         });
@@ -25,7 +25,7 @@ export async function getUserPhotoURL(
             photoURL: user.photoURL,
         });
     } catch (error: any) {
-        res.status(400).send({
+        res.send({
             success: false,
             message: JSON.stringify(error.message),
         });

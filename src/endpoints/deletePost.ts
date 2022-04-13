@@ -1,9 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
 import { getFirestore } from 'firebase-admin/firestore';
 import { getStorage } from 'firebase-admin/storage';
-import { initAlgolia } from '../utils/misc/initAlgolia.js';
+import { initAlgolia } from '../utils/algolia/initAlgolia.js';
 import { DB_COLLECTIONS } from '../utils/misc/constants.js';
 import { deleteQueryBatch } from '../utils/firestore/deleteQueryBatch.js';
+import { log } from '../utils/misc/log.js';
 
 export async function deletePost(
     req: Request,
@@ -13,7 +14,7 @@ export async function deletePost(
     const db = getFirestore();
     const postId = req.query.postId && String(req.query.postId);
     if (!postId) {
-        res.status(400).send({
+        res.send({
             success: false,
             message: 'Bad query parameter: postId.',
         });
@@ -28,11 +29,11 @@ export async function deletePost(
             .doc(postId!)
             .delete()
             .catch((error) =>
-                res.status(500).send({
+                res.send({
                     success: false,
-                    message:
-                        'Failed to delete post from Firestore. ' +
-                        JSON.stringify(error),
+                    message: `Failed to delete post from Firestore. ${JSON.stringify(
+                        error
+                    )}.`,
                 })
             );
 
@@ -41,26 +42,25 @@ export async function deletePost(
             .collection(DB_COLLECTIONS.COMMENTS)
             .where('postId', '==', postId);
         await deleteQueryBatch(db, query, () =>
-            console.log(
-                `Successfully deleted comments from following post ID: ${postId}`
-            )
+            log(`Deleted comments from following post ID: ${postId}.`)
         ).catch((error) => {
-            res.status(500).send({
+            res.send({
                 success: false,
-                message:
-                    'Failed to delete comments from Firestore. ' +
-                    JSON.stringify(error),
+                message: `Failed to delete comments from Firestore. ${JSON.stringify(
+                    error
+                )}.`,
             });
         });
 
         // delete content files
         const storage = getStorage().bucket();
         const contentFiles = post.data()?.contentFiles;
-        contentFiles.map((filePath: string) => {
-            storage.file(filePath).delete({}, () => {
-                console.log(`Successfully deleted file: ${filePath}.`);
+        contentFiles &&
+            contentFiles.map((filePath: string) => {
+                storage.file(filePath).delete({}, () => {
+                    log(`Deleted file: ${filePath}.`);
+                });
             });
-        });
 
         // delete post from Algolia
         const index = initAlgolia('posts');
@@ -68,19 +68,23 @@ export async function deletePost(
             ?.deleteBy({
                 filters: `id:"${postId}"`,
             })
-            .then(() =>
-                console.log('Successfully deleted document from Algolia.')
-            )
+            .then(() => log('Deleted document from Algolia.'))
             .catch((error) =>
-                console.log('Failed to delete document from Algolia.', error)
+                log(
+                    `Failed to delete document from Algolia. ${error.message}`,
+                    false
+                )
             );
 
-        res.status(200).send({
+        res.send({
             success: true,
         });
         next();
     } catch (error) {
-        console.log(error);
+        log(
+            `Failed to delete post from Firestore. ${JSON.stringify(error)}.`,
+            false
+        );
         res.status(500).send({
             success: false,
             message:

@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { getStorage } from 'firebase-admin/storage';
+import { log } from '../utils/misc/log.js';
 
 export async function deleteFile(
     req: Request,
@@ -8,7 +9,7 @@ export async function deleteFile(
 ) {
     const storagePath = req.query.path && String(req.query.path);
     if (!storagePath) {
-        res.status(400).send({
+        res.send({
             success: false,
             message: 'Missing following parameter: path.',
         });
@@ -16,24 +17,32 @@ export async function deleteFile(
     }
 
     const storage = getStorage();
-    storage
+    const response = await storage
         .bucket()
         .file(storagePath)
-        .delete((err, _) => {
+        .delete()
+        .catch((err) => {
             if (err) {
-                res.status(500).send({
+                log(
+                    `Failed to delete the following file: ${storagePath}. ${JSON.stringify(
+                        err
+                    )}.`,
+                    false
+                );
+                res.send({
                     success: false,
-                    message: `Failed to delete the following file: ${storagePath}. Error: ${JSON.stringify(
+                    message: `Failed to delete the following file: ${storagePath}. ${JSON.stringify(
                         err
                     )}.`,
                 });
-                return;
             }
-
-            console.log(`Successfully deleted file: ${storagePath}.`);
-            res.status(200).send({
-                success: true,
-            });
-            next();
         });
+
+    if (response) {
+        log(`Deleted file: ${storagePath}.`);
+        res.send({
+            success: true,
+        });
+        next();
+    }
 }

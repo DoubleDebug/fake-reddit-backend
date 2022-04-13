@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import { FieldValue, getFirestore, Timestamp } from 'firebase-admin/firestore';
-import { initAlgolia } from '../utils/misc/initAlgolia.js';
+import { initAlgolia } from '../utils/algolia/initAlgolia.js';
 import { DB_COLLECTIONS } from '../utils/misc/constants.js';
+import { log } from '../utils/misc/log.js';
 
 export async function submitPost(
     req: Request,
@@ -11,7 +12,7 @@ export async function submitPost(
     const postData = req.body;
 
     if (!postData) {
-        res.status(400).send({
+        res.send({
             success: false,
             message: 'Invalid data parameter(s).',
         });
@@ -24,8 +25,10 @@ export async function submitPost(
         .collection(DB_COLLECTIONS.POSTS)
         .add({ ...postData, createdAt: Timestamp.now() })
         .catch((error) => {
-            console.log('Failed to add document to Firestore.');
-            console.error(error);
+            log(
+                `Failed to add document to Firestore. ${error.message}.`,
+                false
+            );
         });
 
     if (postRes) {
@@ -41,13 +44,15 @@ export async function submitPost(
             .doc('numOfPosts')
             .update(counters)
             .catch((error) => {
-                console.log('Failed to update counter document to Firestore.');
-                console.error(error);
+                log(
+                    `Failed to update counter document to Firestore. ${error.message}.`,
+                    false
+                );
             });
 
         // add document to Algolia
         const index = initAlgolia('posts');
-        if (!index) console.log('Failed to initialize Algolia client.');
+        if (!index) log('Failed to initialize Algolia client.', false);
         index
             ?.saveObject(
                 {
@@ -62,22 +67,23 @@ export async function submitPost(
                     autoGenerateObjectIDIfNotExist: true,
                 }
             )
-            .then(() =>
-                console.log('Successfully added a document to Algolia.')
-            )
+            .then(() => log('Added a document to Algolia.'))
             .catch((err) =>
-                console.log('Failed to add a document to Algolia.', err)
+                log(
+                    `Failed to add a document to Algolia. ${JSON.stringify(
+                        err
+                    )}.`,
+                    false
+                )
             );
 
-        console.log(
-            `Successfully added a post with the following ID: ${postRes.id}.`
-        );
-        res.status(200).send({
+        log(`Added a post with the following ID: ${postRes.id}.`);
+        res.send({
             success: true,
         });
         next();
     } else {
-        res.status(500).send({
+        res.send({
             success: false,
             message: 'Failed to add document to Firestore.',
         });

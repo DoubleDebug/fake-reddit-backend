@@ -3,6 +3,7 @@ import { getFirestore } from 'firebase-admin/firestore';
 import { DB_COLLECTIONS, POSTS_PER_PAGE } from '../utils/misc/constants.js';
 import { doesDocumentExist } from '../utils/firestore/doesDocumentExist.js';
 import { snapshotToData } from '../utils/firestore/snapshotToData.js';
+import { log } from '../utils/misc/log.js';
 
 /**
  * OPTIONAL QUERY PARAMETERS:
@@ -27,9 +28,9 @@ export async function getPosts(
         subreddit
     );
     if (subreddit && (!subredditExists || subreddit.length < 3)) {
-        res.status(400).send({
+        res.send({
             success: false,
-            message: 'Bad parameter: subreddit.',
+            message: 'Bad query parameter: subreddit.',
         });
         return;
     }
@@ -54,8 +55,12 @@ export async function getPosts(
         });
         next();
     } catch (error) {
-        console.log(error);
-        res.status(500).send({
+        log(
+            `Failed to fetch posts data from the Firestore database. ${JSON.stringify(
+                error
+            )}.`
+        );
+        res.send({
             success: false,
             message: 'Failed to fetch posts data from the Firestore database.',
         });

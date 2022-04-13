@@ -4,6 +4,7 @@ export const DB_COLLECTIONS = {
     COMMENTS: 'comments',
     METADATA: 'metadata',
     POSTS: 'posts',
+    REPORTS: 'reports',
     SUBREDDITS: 'subreddits',
     USERS: 'users',
 };

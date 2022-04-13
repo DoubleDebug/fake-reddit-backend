@@ -4,7 +4,7 @@ import { getAuth } from 'firebase-admin/auth';
 export async function auth(req: Request, res: Response, next: NextFunction) {
     const idToken = req.headers.authorization;
     if (!idToken) {
-        res.status(403).send({
+        res.send({
             success: false,
             message: 'Unauthorized request.',
         });
@@ -14,7 +14,7 @@ export async function auth(req: Request, res: Response, next: NextFunction) {
     const decodedToken = await getAuth()
         .verifyIdToken(idToken)
         .catch(() => {
-            res.status(403).send({
+            res.send({
                 success: false,
                 message: 'Unauthorized request.',
             });
@@ -22,9 +22,10 @@ export async function auth(req: Request, res: Response, next: NextFunction) {
         });
 
     if (decodedToken) {
+        res.locals.decodedToken = decodedToken;
         next();
     } else {
-        res.status(403).send({
+        res.send({
             success: false,
             message: 'Unauthorized request.',
         });

@@ -1,5 +1,6 @@
 import { getFirestore } from 'firebase-admin/firestore';
 import { DELETE_BATCH_SIZE } from '../misc/constants.js';
+import { log } from '../misc/log.js';
 import { deleteQueryBatch } from './deleteQueryBatch.js';
 
 /**
@@ -14,10 +15,9 @@ export async function deleteCollection(collectionName: string): Promise<void> {
     const query = collectionRef.orderBy('createdAt').limit(DELETE_BATCH_SIZE);
 
     return new Promise(() => {
-        const resolve = () =>
-            console.log(`Successfully deleted ${collectionName} collection.`);
+        const resolve = () => log(`Deleted ${collectionName} collection.`);
         const reject = () =>
-            console.log(`Failed to  delete ${collectionName} collection.`);
+            log(`Failed to  delete ${collectionName} collection.`, false);
         deleteQueryBatch(db, query, resolve).catch(reject);
     });
 }
