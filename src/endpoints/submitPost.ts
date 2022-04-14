@@ -25,10 +25,7 @@ export async function submitPost(
         .collection(DB_COLLECTIONS.POSTS)
         .add({ ...postData, createdAt: Timestamp.now() })
         .catch((error) => {
-            log(
-                `Failed to add document to Firestore. ${error.message}.`,
-                false
-            );
+            log(`Failed to add post to Firestore. ${error.message}.`, false);
         });
 
     if (postRes) {
@@ -67,12 +64,10 @@ export async function submitPost(
                     autoGenerateObjectIDIfNotExist: true,
                 }
             )
-            .then(() => log('Added a document to Algolia.'))
+            .then(() => log('Added a post to Algolia.'))
             .catch((err) =>
                 log(
-                    `Failed to add a document to Algolia. ${JSON.stringify(
-                        err
-                    )}.`,
+                    `Failed to add a post to Algolia. ${JSON.stringify(err)}.`,
                     false
                 )
             );
@@ -85,7 +80,7 @@ export async function submitPost(
     } else {
         res.send({
             success: false,
-            message: 'Failed to add document to Firestore.',
+            message: 'Failed to add post to Firestore.',
         });
     }
 }

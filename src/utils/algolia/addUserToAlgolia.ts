@@ -38,7 +38,7 @@ export async function addUserToAlgolia(data: {
         };
     }
 
-    log('Added user to Algolia.');
+    log('Added a user to Algolia.');
     return {
         success: true,
     };

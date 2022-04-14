@@ -1,7 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
 import { getAuth } from 'firebase-admin/auth';
 
-export async function auth(req: Request, res: Response, next: NextFunction) {
+export async function isSignedIn(
+    req: Request,
+    res: Response,
+    next: NextFunction
+) {
     const idToken = req.headers.authorization;
     if (!idToken) {
         res.send({
