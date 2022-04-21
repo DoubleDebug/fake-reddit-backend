@@ -5,6 +5,7 @@ import { setupMiddleware } from './utils/middleware/setupMiddleware.js';
 import { isSignedIn } from './utils/middleware/isSignedIn.js';
 import { getUserPhotoURL } from './endpoints/getUserPhotoURL.js';
 import { getPosts } from './endpoints/getPosts.js';
+import { getPostsCustom } from './endpoints/getPostsCustom.js';
 import { deletePost } from './endpoints/deletePost.js';
 import { deleteFile } from './endpoints/deleteFile.js';
 import { submitPost } from './endpoints/submitPost.js';
@@ -22,6 +23,7 @@ setupMiddleware(app);
 
 // ROUTES
 app.get('/getFeed', getPosts);
+app.get('/getCustomFeed', isSignedIn, getPostsCustom);
 app.get('/getUserPhotoURL/:uid', getUserPhotoURL);
 app.get('/getUserEmailByUsername', getUserEmailByUsername);
 app.post('/registerUserWithProvider', registerUserWithProvider);
