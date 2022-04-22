@@ -38,7 +38,7 @@ export async function getPosts(
     try {
         let postsSnapshot: any = db.collection(DB_COLLECTIONS.POSTS);
 
-        if (subreddit) {
+        if (subreddit && subreddit !== 'all') {
             postsSnapshot = postsSnapshot.where('subreddit', '==', subreddit);
         }
 
