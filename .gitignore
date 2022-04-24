@@ -6,9 +6,11 @@ build
 
 # Firebase
 serviceAccountKey.json
+localDB
+.firebaserc
 
 # Misc
 .DS_Store
 .rest
 .env
-npm-debug.log*
+*.log
