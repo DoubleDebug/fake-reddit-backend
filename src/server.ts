@@ -17,6 +17,7 @@ import { deleteUser } from './endpoints/deleteUser.js';
 import { isAdmin } from './utils/middleware/isAdmin.js';
 import { banUser } from './endpoints/banUser.js';
 import { deleteComment } from './endpoints/deleteComment.js';
+import { log } from './utils/misc/log.js';
 
 const app = express();
 setupMiddleware(app);
@@ -37,7 +38,7 @@ app.delete('/banUser', isSignedIn, isAdmin, banUser);
 
 // STARTING SERVER
 app.listen(CONFIG.PORT, CONFIG.HOSTNAME, () => {
-    console.log(`Server started at http://${CONFIG.HOSTNAME}:${CONFIG.PORT}`);
+    log(`Server started at http://${CONFIG.HOSTNAME}:${CONFIG.PORT}`);
     console.log('----------------------------------------------------------');
 });
 

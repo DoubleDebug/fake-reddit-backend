@@ -8,6 +8,7 @@ import { log } from '../utils/misc/log.js';
  * OPTIONAL QUERY PARAMETERS:
  * - offset (default value: 0)
  * - limit (default value: 3)
+ * - sortBy (sorting methods: 'top' | 'new')
  */
 export async function getPostsCustom(
     req: Request,
@@ -16,6 +17,7 @@ export async function getPostsCustom(
 ) {
     const offset = Number(req.query.offset) || 0;
     const limit = Number(req.query.limit) || POSTS_PER_PAGE;
+    const sortingMethod = req.query.sortBy && String(req.query.sortBy);
     const decodedToken = res.locals.decodedToken;
     const uid = decodedToken.uid;
     if (!decodedToken || !uid) {
@@ -49,7 +51,7 @@ export async function getPostsCustom(
         const postsSnapshot = await db
             .collection(DB_COLLECTIONS.POSTS)
             .where('subreddit', 'in', subreddits)
-            .orderBy('createdAt', 'desc')
+            .orderBy(sortingMethod === 'top' ? 'score' : 'createdAt', 'desc')
             .offset(offset)
             .limit(limit)
             .get();
@@ -67,7 +69,8 @@ export async function getPostsCustom(
         log(
             `Failed to fetch posts data from the Firestore database. ${JSON.stringify(
                 error
-            )}.`
+            )}.`,
+            false
         );
         res.send({
             success: false,

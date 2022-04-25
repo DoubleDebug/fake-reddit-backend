@@ -10,6 +10,7 @@ import { log } from '../utils/misc/log.js';
  * - offset (default value: 0)
  * - limit (default value: 3)
  * - r (subreddit id)
+ * - sortBy (sorting methods: 'top' | 'new')
  */
 export async function getPosts(
     req: Request,
@@ -19,6 +20,7 @@ export async function getPosts(
     const offset = Number(req.query.offset) || 0;
     const limit = Number(req.query.limit) || POSTS_PER_PAGE;
     const subreddit = req.query.subreddit && String(req.query.subreddit);
+    const sortingMethod = req.query.sortBy && String(req.query.sortBy);
 
     // check if subreddit exists
     const db = getFirestore();
@@ -37,13 +39,11 @@ export async function getPosts(
 
     try {
         let postsSnapshot: any = db.collection(DB_COLLECTIONS.POSTS);
-
         if (subreddit && subreddit !== 'all') {
             postsSnapshot = postsSnapshot.where('subreddit', '==', subreddit);
         }
-
         postsSnapshot = await postsSnapshot
-            .orderBy('createdAt', 'desc')
+            .orderBy(sortingMethod === 'top' ? 'score' : 'createdAt', 'desc')
             .offset(offset)
             .limit(limit)
             .get();
@@ -58,7 +58,8 @@ export async function getPosts(
         log(
             `Failed to fetch posts data from the Firestore database. ${JSON.stringify(
                 error
-            )}.`
+            )}.`,
+            false
         );
         res.send({
             success: false,
