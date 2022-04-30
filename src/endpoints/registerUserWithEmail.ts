@@ -63,6 +63,7 @@ export async function registerUserWithEmail(
             .set({
                 username: userData.username,
                 lastOnline: Timestamp.now(),
+                savedPosts: [],
             })
             .catch((err) =>
                 log(`Failed to add user to Firestore. ${err.message}.`, false)

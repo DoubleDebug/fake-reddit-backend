@@ -1,0 +1,61 @@
+import { NextFunction, Request, Response } from 'express';
+import { getFirestore } from 'firebase-admin/firestore';
+import { COMMENTS_PER_PAGE, DB_COLLECTIONS } from '../utils/misc/constants.js';
+import { snapshotToData } from '../utils/firestore/snapshotToData.js';
+import { log } from '../utils/misc/log.js';
+
+/**
+ * OPTIONAL QUERY PARAMETERS:
+ * - offset (default value: 0)
+ * - limit (default value: 3)
+ */
+export async function getUserComments(
+    req: Request,
+    res: Response,
+    next: NextFunction
+) {
+    // get parameters
+    const offset = Number(req.query.offset) || 0;
+    const limit = Number(req.query.limit) || COMMENTS_PER_PAGE;
+    const decodedToken = res.locals.decodedToken;
+    const uid = decodedToken.uid;
+    if (!decodedToken || !uid) {
+        res.send({
+            success: false,
+            message: 'Unauthorized request.',
+        });
+        return;
+    }
+
+    // fetch comments
+    const db = getFirestore();
+    const commentsSnapshot = await db
+        .collection(DB_COLLECTIONS.COMMENTS)
+        .where('authorId', '==', uid)
+        .orderBy('createdAt', 'desc')
+        .offset(offset)
+        .limit(limit)
+        .get()
+        .catch((error) => {
+            log(
+                `Failed to fetch user comments from the Firestore database. ${JSON.stringify(
+                    error
+                )}.`,
+                false
+            );
+            res.send({
+                success: false,
+                message:
+                    'Failed to fetch user comments from the Firestore database.',
+            });
+        });
+
+    if (commentsSnapshot) {
+        const data = snapshotToData(commentsSnapshot);
+        res.send({
+            success: true,
+            data: data,
+        });
+        next();
+    }
+}

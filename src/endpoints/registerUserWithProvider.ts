@@ -1,7 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 import { getAuth } from 'firebase-admin/auth';
+import { getFirestore, Timestamp } from 'firebase-admin/firestore';
 import { addUserToAlgolia } from '../utils/algolia/addUserToAlgolia.js';
 import { validateUserWithProvider } from '../utils/dataValidation/validateUserWithProvider.js';
+import { DB_COLLECTIONS } from '../utils/misc/constants.js';
+import { generateUsername } from '../utils/misc/generateUsername.js';
 import { log } from '../utils/misc/log.js';
 
 export async function registerUserWithProvider(
@@ -34,7 +37,7 @@ export async function registerUserWithProvider(
 
     // update Firebase Auth info
     const auth = getAuth();
-    const response = await auth
+    const authResponse = await auth
         .updateUser(req.body.id, {
             displayName: userData.name,
             photoURL: userData.photoURL,
@@ -45,7 +48,19 @@ export async function registerUserWithProvider(
                 false
             )
         );
-    if (response) log("Updated user's Firebase Auth information.");
+    if (authResponse) log("Updated user's Firebase Auth information.");
+
+    // update Firestore info
+    const db = getFirestore();
+    const firestoreResponse = await db
+        .collection(DB_COLLECTIONS.USERS)
+        .doc(userData.id)
+        .set({
+            username: generateUsername(),
+            lastOnline: Timestamp.now(),
+            savedPosts: [],
+        });
+    if (firestoreResponse) log("Updated user's Firestore profile information.");
 
     // add user to algolia
     const algoliaResponse = await addUserToAlgolia({
