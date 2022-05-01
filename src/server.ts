@@ -20,6 +20,7 @@ import { deleteComment } from './endpoints/deleteComment.js';
 import { log } from './utils/misc/log.js';
 import { getUserPosts } from './endpoints/getUserPosts.js';
 import { getUserComments } from './endpoints/getUserComments.js';
+import { getSavedPosts } from './endpoints/getSavedPosts.js';
 
 const app = express();
 setupMiddleware(app);
@@ -27,8 +28,9 @@ setupMiddleware(app);
 // ROUTES
 app.get('/getFeed', getPosts);
 app.get('/getCustomFeed', isSignedIn, getPostsCustom);
-app.get('/getUserPosts', isSignedIn, getUserPosts);
-app.get('/getUserComments', isSignedIn, getUserComments);
+app.get('/getUserPosts', getUserPosts);
+app.get('/getUserComments', getUserComments);
+app.get('/getSavedPosts', isSignedIn, getSavedPosts);
 app.get('/getUserPhotoURL/:uid', getUserPhotoURL);
 app.get('/getUserEmailByUsername', getUserEmailByUsername);
 app.post('/registerUserWithProvider', registerUserWithProvider);

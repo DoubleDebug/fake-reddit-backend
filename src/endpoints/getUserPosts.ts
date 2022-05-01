@@ -5,6 +5,8 @@ import { snapshotToData } from '../utils/firestore/snapshotToData.js';
 import { log } from '../utils/misc/log.js';
 
 /**
+ * REQUIRED PARAMETER:
+ * - username
  * OPTIONAL QUERY PARAMETERS:
  * - offset (default value: 0)
  * - limit (default value: 3)
@@ -17,12 +19,11 @@ export async function getUserPosts(
     // get parameters
     const offset = Number(req.query.offset) || 0;
     const limit = Number(req.query.limit) || POSTS_PER_PAGE;
-    const decodedToken = res.locals.decodedToken;
-    const uid = decodedToken.uid;
-    if (!decodedToken || !uid) {
+    const username = req.query.username;
+    if (!username) {
         res.send({
             success: false,
-            message: 'Unauthorized request.',
+            message: 'Missing parameter: username.',
         });
         return;
     }
@@ -31,7 +32,7 @@ export async function getUserPosts(
     const db = getFirestore();
     const postsSnapshot = await db
         .collection(DB_COLLECTIONS.POSTS)
-        .where('authorId', '==', uid)
+        .where('author', '==', username)
         .orderBy('createdAt', 'desc')
         .offset(offset)
         .limit(limit)
