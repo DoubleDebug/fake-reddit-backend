@@ -59,6 +59,8 @@ export async function registerUserWithProvider(
             username: generateUsername(),
             lastOnline: Timestamp.now(),
             savedPosts: [],
+            karma: 0,
+            cakeDay: Timestamp.now(),
         });
     if (firestoreResponse) log("Updated user's Firestore profile information.");
 
