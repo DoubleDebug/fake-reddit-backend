@@ -21,6 +21,7 @@ import { log } from './utils/misc/log.js';
 import { getUserPosts } from './endpoints/getUserPosts.js';
 import { getUserComments } from './endpoints/getUserComments.js';
 import { getSavedPosts } from './endpoints/getSavedPosts.js';
+import { submitSubreddit } from './endpoints/submitSubreddit.js';
 
 const app = express();
 setupMiddleware(app);
@@ -36,6 +37,7 @@ app.get('/getUserEmailByUsername', getUserEmailByUsername);
 app.post('/registerUserWithProvider', registerUserWithProvider);
 app.post('/registerUserWithEmail', registerUserWithEmail);
 app.post('/submitPost', isSignedIn, submitPost);
+app.post('/submitSubreddit', isSignedIn, submitSubreddit);
 app.delete('/deletePost', isSignedIn, deletePost);
 app.delete('/deleteComment', isSignedIn, deleteComment);
 app.delete('/deleteFile', isSignedIn, deleteFile);
