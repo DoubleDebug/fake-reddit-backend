@@ -6,12 +6,12 @@ import { generateRandomNumber } from './generateRandomNumber.js';
  * @returns a unique username in the format: "user1234".
  * Maximum number of tries: 10.
  */
-export async function generateUsername() {
+export async function generateUsername(): Promise<string> {
     let usernameExists = true;
-    let username;
+    let username = '';
     let numOfTries = 0;
 
-    while (usernameExists && !(numOfTries < 10)) {
+    while (usernameExists && numOfTries < 10) {
         // generate username
         const userNumber = generateRandomNumber([1000, 10000]);
         username = `user${userNumber}`;

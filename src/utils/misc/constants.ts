@@ -10,3 +10,4 @@ export const DB_COLLECTIONS = {
     USERS: 'users',
 };
 export const DELETE_BATCH_SIZE = 100;
+export const IMGUR_API_URL = `https://api.imgur.com/3/image`;

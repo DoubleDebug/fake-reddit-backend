@@ -41,12 +41,9 @@ export async function validateUserWithEmail(
             message: 'The password cannot be empty.',
         };
 
-    // check for email format - anything@anything.anything
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email))
-        return {
-            success: false,
-            message: 'The email address is invalid.',
-        };
+    // validate email
+    const v_email = validateEmail(data.email);
+    if (!v_email.success) return v_email;
 
     // check for username format
     // length must be from 3 to 20      -   (?=.{3,20}$)
@@ -64,14 +61,9 @@ export async function validateUserWithEmail(
             message: 'The username is invalid.',
         };
 
-    // check for password format
-    // length must be from 5 to 20      -   (?=.{5,20}$)
-    // can have following characters    -   [a-zA-Z0-9._ ]
-    if (!/^(?=.{5,20}$)[a-zA-Z0-9._ ]+$/.test(data.password))
-        return {
-            success: false,
-            message: 'The password is invalid.',
-        };
+    // validate password
+    const v_pass = validatePassword(data.password);
+    if (!v_pass.success) return v_pass;
 
     // check if username already exists
     const db = getFirestore();
@@ -86,6 +78,48 @@ export async function validateUserWithEmail(
         };
 
     // everything is OK
+    return {
+        success: true,
+    };
+}
+
+export function validateEmail(email: any): ResponseStatus {
+    // check if empty
+    if (email === '')
+        return {
+            success: false,
+            message: 'The email address cannot be empty.',
+        };
+
+    // check for email format - anything@anything.anything
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+        return {
+            success: false,
+            message: 'The email address is invalid.',
+        };
+
+    return {
+        success: true,
+    };
+}
+
+export function validatePassword(password: any): ResponseStatus {
+    // check if empty
+    if (password === '')
+        return {
+            success: false,
+            message: 'The password cannot be empty.',
+        };
+
+    // check for password format
+    // length must be from 5 to 20      -   (?=.{5,20}$)
+    // can have following characters    -   [a-zA-Z0-9._ ]
+    if (!/^(?=.{5,20}$)[a-zA-Z0-9._ ]+$/.test(password))
+        return {
+            success: false,
+            message: 'The password is invalid.',
+        };
+
     return {
         success: true,
     };

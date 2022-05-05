@@ -56,7 +56,7 @@ export async function registerUserWithProvider(
         .collection(DB_COLLECTIONS.USERS)
         .doc(userData.id)
         .set({
-            username: generateUsername(),
+            username: await generateUsername(),
             lastOnline: Timestamp.now(),
             savedPosts: [],
             karma: 0,
