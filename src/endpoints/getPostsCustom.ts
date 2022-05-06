@@ -9,6 +9,7 @@ import { log } from '../utils/misc/log.js';
  * - offset (default value: 0)
  * - limit (default value: 3)
  * - sortBy (sorting methods: 'top' | 'new')
+ * - hideNSFW (default: false)
  */
 export async function getPostsCustom(
     req: Request,
@@ -18,6 +19,8 @@ export async function getPostsCustom(
     const offset = Number(req.query.offset) || 0;
     const limit = Number(req.query.limit) || POSTS_PER_PAGE;
     const sortingMethod = req.query.sortBy && String(req.query.sortBy);
+    const hideNSFW = req.query.hideNSFW;
+
     const decodedToken = res.locals.decodedToken;
     const uid = decodedToken.uid;
     if (!decodedToken || !uid) {
@@ -48,9 +51,13 @@ export async function getPostsCustom(
 
     try {
         // fetch posts from followed subreddits
-        const postsSnapshot = await db
+        let postsSnapshot: any = db
             .collection(DB_COLLECTIONS.POSTS)
-            .where('subreddit', 'in', subreddits)
+            .where('subreddit', 'in', subreddits);
+        if (hideNSFW) {
+            postsSnapshot = postsSnapshot.where('isNSFW', '==', false);
+        }
+        postsSnapshot = await postsSnapshot
             .orderBy(sortingMethod === 'top' ? 'score' : 'createdAt', 'desc')
             .offset(offset)
             .limit(limit)
