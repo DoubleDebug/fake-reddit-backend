@@ -74,6 +74,7 @@ export async function updateAccount(
         console.log(v_response.data);
         res.send({
             success: true,
+            data: v_response.data,
         });
         next();
     }

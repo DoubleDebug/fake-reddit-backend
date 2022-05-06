@@ -46,6 +46,13 @@ export async function validateAccountData(
         delete data.photoURL;
     }
 
+    // check if there's nothing left to be updated
+    if (Object.keys(data).length === 0)
+        return {
+            success: false,
+            message: `Nothing to update.`,
+        };
+
     return {
         success: true,
         data: data,

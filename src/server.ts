@@ -13,7 +13,7 @@ import { deleteUnusedFiles } from './utils/firestore/deleteUnusedFiles.js';
 import { registerUserWithProvider } from './endpoints/registerUserWithProvider.js';
 import { registerUserWithEmail } from './endpoints/registerUserWithEmail.js';
 import { getUserEmailByUsername } from './endpoints/getUserEmailByUsername.js';
-import { deleteUser } from './endpoints/deleteUser.js';
+import { deleteAccount } from './endpoints/deleteAccount.js';
 import { isAdmin } from './utils/middleware/isAdmin.js';
 import { banUser } from './endpoints/banUser.js';
 import { deleteComment } from './endpoints/deleteComment.js';
@@ -23,6 +23,7 @@ import { getUserComments } from './endpoints/getUserComments.js';
 import { getSavedPosts } from './endpoints/getSavedPosts.js';
 import { submitSubreddit } from './endpoints/submitSubreddit.js';
 import { updateAccount } from './endpoints/updateAccount.js';
+import { deleteUserAvatars } from './utils/firestore/deleteUserAvatars.js';
 
 const app = express();
 setupMiddleware(app);
@@ -39,11 +40,11 @@ app.post('/registerUserWithProvider', registerUserWithProvider);
 app.post('/registerUserWithEmail', registerUserWithEmail);
 app.post('/submitPost', isSignedIn, submitPost);
 app.post('/submitSubreddit', isSignedIn, submitSubreddit);
-app.post('/updateAccount', isSignedIn, updateAccount);
+app.patch('/updateAccount', isSignedIn, updateAccount);
 app.delete('/deletePost', isSignedIn, deletePost);
 app.delete('/deleteComment', isSignedIn, deleteComment);
 app.delete('/deleteFile', isSignedIn, deleteFile);
-app.delete('/deleteUser', isSignedIn, deleteUser);
+app.delete('/deleteAccount', isSignedIn, deleteAccount);
 app.delete('/banUser', isSignedIn, isAdmin, banUser);
 
 // STARTING SERVER
@@ -57,6 +58,8 @@ cron.schedule('0 0 * * 1', () => {
     // delete all unused content from storage every Monday
     // (cancelled post submission)
     deleteUnusedFiles();
+    // delete all temporary user avatar images
+    deleteUserAvatars();
 });
 
 // cron.schedule('0 0 * * 1', async () => {

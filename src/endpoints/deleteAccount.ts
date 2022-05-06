@@ -5,7 +5,7 @@ import { DB_COLLECTIONS } from '../utils/misc/constants.js';
 import { initAlgolia } from '../utils/algolia/initAlgolia.js';
 import { log } from '../utils/misc/log.js';
 
-export async function deleteUser(
+export async function deleteAccount(
     _: Request,
     res: Response,
     next: NextFunction
@@ -22,7 +22,7 @@ export async function deleteUser(
 
     // sign out user everywhere
     const auth = getAuth();
-    auth.revokeRefreshTokens(uid);
+    await auth.revokeRefreshTokens(uid);
 
     // delete user from Firestore
     const db = getFirestore();

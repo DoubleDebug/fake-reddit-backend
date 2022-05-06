@@ -1,11 +1,13 @@
 import { getFirestore } from 'firebase-admin/firestore';
 import { getStorage } from 'firebase-admin/storage';
-import { DB_COLLECTIONS } from '../misc/constants.js';
+import { DB_COLLECTIONS, STORAGE_FOLDERS } from '../misc/constants.js';
 import { log } from '../misc/log.js';
 
 export async function deleteUnusedFiles() {
     const storage = getStorage();
-    const res = await storage.bucket().getFiles();
+    const res = await storage.bucket().getFiles({
+        prefix: STORAGE_FOLDERS.CONTENT,
+    });
     const allFiles = res[0].map((f) => f.name);
     const filesToDelete: { name: string; task: Promise<any> }[] = [];
 
@@ -28,6 +30,6 @@ export async function deleteUnusedFiles() {
         await Promise.all(filesToDelete.map((f) => f.task));
 
         log('Deleted the following unused files:');
-        filesToDelete.forEach((f) => log(`     * ${f.name}`));
+        filesToDelete.forEach((f) => log(`     ${f.name}`));
     }
 }
