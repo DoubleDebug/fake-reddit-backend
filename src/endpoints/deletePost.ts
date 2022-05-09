@@ -21,6 +21,17 @@ export async function deletePost(
         return;
     }
     const post = await db.collection(DB_COLLECTIONS.POSTS).doc(postId).get();
+    const postData = post.data();
+
+    // check if user is author
+    const uid = res.locals.decodedToken.uid;
+    if (!postData || postData.authorId !== uid) {
+        res.send({
+            success: false,
+            message: 'Only the author of the post can delete it.',
+        });
+        return;
+    }
 
     try {
         // delete post
