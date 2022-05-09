@@ -1,0 +1,1798 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Fake Reddit API",
+    "description": "Fake Reddit backend API server. Find the source code [here.](https://github.com/DoubleDebug/fake-reddit-backend) Learn more about this project [here.](https://github.com/DoubleDebug/fake-reddit)",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5000",
+      "description": "Temporary local server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "posts",
+      "description": "User submitted content."
+    },
+    {
+      "name": "comments",
+      "description": "Post comments."
+    },
+    {
+      "name": "subreddits",
+      "description": "Groups and communities."
+    },
+    {
+      "name": "user",
+      "description": "User management."
+    },
+    {
+      "name": "register",
+      "description": "User registration."
+    },
+    {
+      "name": "files",
+      "description": "User submitted images, videos and avatars."
+    }
+  ],
+  "paths": {
+    "/posts": {
+      "get": {
+        "tags": [
+          "posts"
+        ],
+        "summary": "Returns a feed of recent posts",
+        "operationId": "getPosts",
+        "parameters": [
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Number of posts to offset",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "default": 0
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum number of posts to get",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "default": 5
+            }
+          },
+          {
+            "name": "r",
+            "in": "query",
+            "description": "Subreddit ID string",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "showerthoughts"
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "Sorting method",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "default": "new",
+              "enum": [
+                "top",
+                "new"
+              ]
+            }
+          },
+          {
+            "name": "hideNSFW",
+            "in": "query",
+            "description": "Option to filter out NSFW posts",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseStatus"
+                },
+                "examples": {
+                  "example1": {
+                    "value": {
+                      "success": true,
+                      "data": [
+                        {
+                          "id": "3GsOv3j5f0X3HJWGCvVx",
+                          "createdAt": {
+                            "_seconds": 1650475293,
+                            "_nanoseconds": 0
+                          },
+                          "score": 0,
+                          "flairs": [
+                            "nsfw"
+                          ],
+                          "author": "doubledebug",
+                          "isNSFW": true,
+                          "votes": [
+                            {
+                              "uid": "ahcmHWtMmgfGKympUJqubKvt3hn2",
+                              "upvoted": true
+                            },
+                            {
+                              "uid": "vphRsFPWCPhsUpMy4rs0iBrmniZ2",
+                              "upvoted": false
+                            }
+                          ],
+                          "authorId": "ahcmHWtMmgfGKympUJqubKvt3hn2",
+                          "title": "Teenagers often confuse being smart and well spoken with being mature.",
+                          "type": "text",
+                          "content": "<p>For all those eloquently pointing out that 'not only teenagers', I think the reason most people get it, is because its dangerous for a teenager to think they are mature and it can lead for them to end up in predatory relationships or doing things they shouldn't. No one cares if an adult thinks he's mature.</p>",
+                          "subreddit": "showerthoughts"
+                        },
+                        {
+                          "id": "khetkegDUvKHqWdhDW01",
+                          "contentFiles": [
+                            "content/ec7aeaca-ac0b-48e2-871f-89e89e05b484.jpg"
+                          ],
+                          "createdAt": {
+                            "_seconds": 1650389305,
+                            "_nanoseconds": 0
+                          },
+                          "score": 2,
+                          "flairs": [
+                            "oc",
+                            "nsfw"
+                          ],
+                          "author": "doubledebug",
+                          "isNSFW": true,
+                          "votes": [
+                            {
+                              "uid": "ahcmHWtMmgfGKympUJqubKvt3hn2",
+                              "upvoted": true
+                            },
+                            {
+                              "uid": "vphRsFPWCPhsUpMy4rs0iBrmniZ2",
+                              "upvoted": true
+                            }
+                          ],
+                          "authorId": "ahcmHWtMmgfGKympUJqubKvt3hn2",
+                          "title": "[Homemade] French toast, strawberrys and cream",
+                          "type": "image",
+                          "subreddit": "food"
+                        },
+                        {
+                          "id": "ICExDhFANbcOc6mKy2wm",
+                          "contentFiles": [],
+                          "createdAt": {
+                            "_seconds": 1650215589,
+                            "_nanoseconds": 0
+                          },
+                          "score": 2,
+                          "flairs": [],
+                          "author": "admin",
+                          "isNSFW": false,
+                          "votes": [
+                            {
+                              "uid": "4D1g7kTBRbbZi8eQbB6bHlwgqS72",
+                              "upvoted": true
+                            },
+                            {
+                              "uid": "vphRsFPWCPhsUpMy4rs0iBrmniZ2",
+                              "upvoted": true
+                            }
+                          ],
+                          "authorId": "vphRsFPWCPhsUpMy4rs0iBrmniZ2",
+                          "pollData": {
+                            "options": [
+                              "yes",
+                              "no"
+                            ],
+                            "votes": [
+                              {
+                                "uid": "vphRsFPWCPhsUpMy4rs0iBrmniZ2",
+                                "option": "yes"
+                              },
+                              {
+                                "option": "yes"
+                              }
+                            ]
+                          },
+                          "title": "Do you pee in the shower?",
+                          "type": "poll",
+                          "subreddit": "showerthoughts"
+                        }
+                      ]
+                    }
+                  },
+                  "example2": {
+                    "value": {
+                      "success": false,
+                      "message": "Bad query parameter: subreddit."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server failure"
+          }
+        },
+        "security": [
+          {
+            "firebase_auth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "posts"
+        ],
+        "summary": "Submits a new post to the database",
+        "operationId": "submitPost",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Post"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Response status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseStatus"
+                },
+                "examples": {
+                  "example1": {
+                    "value": {
+                      "success": true
+                    }
+                  },
+                  "example2": {
+                    "value": {
+                      "success": false,
+                      "message": "Failed to add post to the database."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server failure"
+          }
+        },
+        "security": [
+          {
+            "firebase_auth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "posts"
+        ],
+        "summary": "Deletes post with the provided ID. Only the post author can delete it",
+        "operationId": "deletePost",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "query",
+            "description": "ID of the post to be deleted",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseStatus"
+                },
+                "examples": {
+                  "example1": {
+                    "value": {
+                      "success": true
+                    }
+                  },
+                  "example2": {
+                    "value": {
+                      "success": false,
+                      "message": "Only the author of the post can delete it."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server failure"
+          }
+        },
+        "security": [
+          {
+            "firebase_auth": []
+          }
+        ]
+      }
+    },
+    "/posts/custom": {
+      "get": {
+        "tags": [
+          "posts"
+        ],
+        "summary": "Returns a feed of recent posts from subreddits followed by the user",
+        "operationId": "getPostsCustom",
+        "parameters": [
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Number of posts to offset",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "default": 0
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum number of posts to get",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "default": 5
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "Sorting method",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "default": "new",
+              "enum": [
+                "top",
+                "new"
+              ]
+            }
+          },
+          {
+            "name": "hideNSFW",
+            "in": "query",
+            "description": "Option to filter out NSFW posts",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseStatus"
+                },
+                "examples": {
+                  "example1": {
+                    "value": {
+                      "success": true,
+                      "data": {
+                        "followedSubreddits": [
+                          "showerthoughts",
+                          "food"
+                        ],
+                        "posts": [
+                          {
+                            "id": "3GsOv3j5f0X3HJWGCvVx",
+                            "createdAt": {
+                              "_seconds": 1650475293,
+                              "_nanoseconds": 0
+                            },
+                            "score": 0,
+                            "flairs": [
+                              "nsfw"
+                            ],
+                            "author": "doubledebug",
+                            "isNSFW": true,
+                            "votes": [
+                              {
+                                "uid": "ahcmHWtMmgfGKympUJqubKvt3hn2",
+                                "upvoted": true
+                              },
+                              {
+                                "uid": "vphRsFPWCPhsUpMy4rs0iBrmniZ2",
+                                "upvoted": false
+                              }
+                            ],
+                            "authorId": "ahcmHWtMmgfGKympUJqubKvt3hn2",
+                            "title": "Teenagers often confuse being smart and well spoken with being mature.",
+                            "type": "text",
+                            "content": "<p>For all those eloquently pointing out that 'not only teenagers', I think the reason most people get it, is because its dangerous for a teenager to think they are mature and it can lead for them to end up in predatory relationships or doing things they shouldn't. No one cares if an adult thinks he's mature.</p>",
+                            "subreddit": "showerthoughts"
+                          },
+                          {
+                            "id": "khetkegDUvKHqWdhDW01",
+                            "contentFiles": [
+                              "content/ec7aeaca-ac0b-48e2-871f-89e89e05b484.jpg"
+                            ],
+                            "createdAt": {
+                              "_seconds": 1650389305,
+                              "_nanoseconds": 0
+                            },
+                            "score": 2,
+                            "flairs": [
+                              "oc",
+                              "nsfw"
+                            ],
+                            "author": "doubledebug",
+                            "isNSFW": true,
+                            "votes": [
+                              {
+                                "uid": "ahcmHWtMmgfGKympUJqubKvt3hn2",
+                                "upvoted": true
+                              },
+                              {
+                                "uid": "vphRsFPWCPhsUpMy4rs0iBrmniZ2",
+                                "upvoted": true
+                              }
+                            ],
+                            "authorId": "ahcmHWtMmgfGKympUJqubKvt3hn2",
+                            "title": "[Homemade] French toast, strawberrys and cream",
+                            "type": "image",
+                            "subreddit": "food"
+                          },
+                          {
+                            "id": "ICExDhFANbcOc6mKy2wm",
+                            "contentFiles": [],
+                            "createdAt": {
+                              "_seconds": 1650215589,
+                              "_nanoseconds": 0
+                            },
+                            "score": 2,
+                            "flairs": [],
+                            "author": "admin",
+                            "isNSFW": false,
+                            "votes": [
+                              {
+                                "uid": "4D1g7kTBRbbZi8eQbB6bHlwgqS72",
+                                "upvoted": true
+                              },
+                              {
+                                "uid": "vphRsFPWCPhsUpMy4rs0iBrmniZ2",
+                                "upvoted": true
+                              }
+                            ],
+                            "authorId": "vphRsFPWCPhsUpMy4rs0iBrmniZ2",
+                            "pollData": {
+                              "options": [
+                                "yes",
+                                "no"
+                              ],
+                              "votes": [
+                                {
+                                  "uid": "vphRsFPWCPhsUpMy4rs0iBrmniZ2",
+                                  "option": "yes"
+                                },
+                                {
+                                  "option": "yes"
+                                }
+                              ]
+                            },
+                            "title": "Do you pee in the shower?",
+                            "type": "poll",
+                            "subreddit": "showerthoughts"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "example2": {
+                    "value": {
+                      "success": false,
+                      "message": "Failed to fetch posts data from the database."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server failure"
+          }
+        },
+        "security": [
+          {
+            "firebase_auth": []
+          }
+        ]
+      }
+    },
+    "/user/posts": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Returns user's posts",
+        "description": "By default, it returns last 5 posts. Change limit parameter to get more than 5.",
+        "operationId": "getUserPosts",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "description": "User's username",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Number of posts to offset",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "default": 0
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum number of posts to get",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "default": 5
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseStatus"
+                },
+                "examples": {
+                  "example1": {
+                    "value": {
+                      "success": true,
+                      "data": [
+                        {
+                          "id": "3GsOv3j5f0X3HJWGCvVx",
+                          "createdAt": {
+                            "_seconds": 1650475293,
+                            "_nanoseconds": 0
+                          },
+                          "score": 0,
+                          "flairs": [
+                            "nsfw"
+                          ],
+                          "author": "doubledebug",
+                          "isNSFW": true,
+                          "votes": [
+                            {
+                              "uid": "ahcmHWtMmgfGKympUJqubKvt3hn2",
+                              "upvoted": true
+                            },
+                            {
+                              "uid": "vphRsFPWCPhsUpMy4rs0iBrmniZ2",
+                              "upvoted": false
+                            }
+                          ],
+                          "authorId": "ahcmHWtMmgfGKympUJqubKvt3hn2",
+                          "title": "Teenagers often confuse being smart and well spoken with being mature.",
+                          "type": "text",
+                          "content": "<p>For all those eloquently pointing out that 'not only teenagers', I think the reason most people get it, is because its dangerous for a teenager to think they are mature and it can lead for them to end up in predatory relationships or doing things they shouldn't. No one cares if an adult thinks he's mature.</p>",
+                          "subreddit": "showerthoughts"
+                        },
+                        {
+                          "id": "khetkegDUvKHqWdhDW01",
+                          "contentFiles": [
+                            "content/ec7aeaca-ac0b-48e2-871f-89e89e05b484.jpg"
+                          ],
+                          "createdAt": {
+                            "_seconds": 1650389305,
+                            "_nanoseconds": 0
+                          },
+                          "score": 2,
+                          "flairs": [
+                            "oc",
+                            "nsfw"
+                          ],
+                          "author": "doubledebug",
+                          "isNSFW": true,
+                          "votes": [
+                            {
+                              "uid": "ahcmHWtMmgfGKympUJqubKvt3hn2",
+                              "upvoted": true
+                            },
+                            {
+                              "uid": "vphRsFPWCPhsUpMy4rs0iBrmniZ2",
+                              "upvoted": true
+                            }
+                          ],
+                          "authorId": "ahcmHWtMmgfGKympUJqubKvt3hn2",
+                          "title": "[Homemade] French toast, strawberrys and cream",
+                          "type": "image",
+                          "subreddit": "food"
+                        },
+                        {
+                          "id": "ICExDhFANbcOc6mKy2wm",
+                          "contentFiles": [],
+                          "createdAt": {
+                            "_seconds": 1650215589,
+                            "_nanoseconds": 0
+                          },
+                          "score": 2,
+                          "flairs": [],
+                          "author": "doubledebug",
+                          "isNSFW": false,
+                          "votes": [
+                            {
+                              "uid": "4D1g7kTBRbbZi8eQbB6bHlwgqS72",
+                              "upvoted": true
+                            },
+                            {
+                              "uid": "vphRsFPWCPhsUpMy4rs0iBrmniZ2",
+                              "upvoted": true
+                            }
+                          ],
+                          "authorId": "vphRsFPWCPhsUpMy4rs0iBrmniZ2",
+                          "pollData": {
+                            "options": [
+                              "yes",
+                              "no"
+                            ],
+                            "votes": [
+                              {
+                                "uid": "vphRsFPWCPhsUpMy4rs0iBrmniZ2",
+                                "option": "yes"
+                              },
+                              {
+                                "option": "yes"
+                              }
+                            ]
+                          },
+                          "title": "Do you pee in the shower?",
+                          "type": "poll",
+                          "subreddit": "showerthoughts"
+                        }
+                      ]
+                    }
+                  },
+                  "example2": {
+                    "value": {
+                      "success": false,
+                      "message": "Missing parameter: username."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server failure"
+          }
+        }
+      }
+    },
+    "/user/comments": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Returns user's comments",
+        "operationId": "getUserComments",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "description": "User's username",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Number of posts to offset",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "default": 0
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum number of posts to get",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "default": 5
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseStatus"
+                },
+                "examples": {
+                  "example1": {
+                    "value": {
+                      "success": true,
+                      "data": [
+                        {
+                          "id": "pGDOhDYkuAtlPLQozKtN",
+                          "createdAt": {
+                            "_seconds": 1651371542,
+                            "_nanoseconds": 928000000
+                          },
+                          "author": "admin",
+                          "postId": "khetkegDUvKHqWdhDW01",
+                          "text": "test3",
+                          "authorId": "vphRsFPWCPhsUpMy4rs0iBrmniZ2",
+                          "isReply": false
+                        },
+                        {
+                          "id": "KuPvrabOUwRGaeEhO41z",
+                          "createdAt": {
+                            "_seconds": 1651371535,
+                            "_nanoseconds": 360000000
+                          },
+                          "author": "admin",
+                          "postId": "3GsOv3j5f0X3HJWGCvVx",
+                          "text": "test2",
+                          "authorId": "vphRsFPWCPhsUpMy4rs0iBrmniZ2",
+                          "isReply": false
+                        },
+                        {
+                          "id": "3T3NYENWXGHtCsw5hLtJ",
+                          "createdAt": {
+                            "_seconds": 1651371526,
+                            "_nanoseconds": 448000000
+                          },
+                          "author": "admin",
+                          "parentCommentId": "InHAoP1M8DJ9QWKRYeMV",
+                          "postId": "ICExDhFANbcOc6mKy2wm",
+                          "text": "test1",
+                          "authorId": "vphRsFPWCPhsUpMy4rs0iBrmniZ2",
+                          "isReply": true
+                        }
+                      ]
+                    }
+                  },
+                  "example2": {
+                    "value": {
+                      "success": false,
+                      "message": "Missing parameter: username."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server failure"
+          }
+        }
+      }
+    },
+    "/user/saved-posts": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Returns user's saved posts",
+        "description": "Returns an array of all user's saved posts.",
+        "operationId": "getSavedPosts",
+        "responses": {
+          "200": {
+            "description": "Response status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseStatus"
+                },
+                "examples": {
+                  "example1": {
+                    "value": {
+                      "success": true,
+                      "data": [
+                        {
+                          "id": "3GsOv3j5f0X3HJWGCvVx",
+                          "createdAt": {
+                            "_seconds": 1650475293,
+                            "_nanoseconds": 0
+                          },
+                          "score": 0,
+                          "flairs": [
+                            "nsfw"
+                          ],
+                          "author": "doubledebug",
+                          "isNSFW": true,
+                          "votes": [
+                            {
+                              "uid": "ahcmHWtMmgfGKympUJqubKvt3hn2",
+                              "upvoted": true
+                            },
+                            {
+                              "uid": "vphRsFPWCPhsUpMy4rs0iBrmniZ2",
+                              "upvoted": false
+                            }
+                          ],
+                          "authorId": "ahcmHWtMmgfGKympUJqubKvt3hn2",
+                          "title": "Teenagers often confuse being smart and well spoken with being mature.",
+                          "type": "text",
+                          "content": "<p>For all those eloquently pointing out that 'not only teenagers', I think the reason most people get it, is because its dangerous for a teenager to think they are mature and it can lead for them to end up in predatory relationships or doing things they shouldn't. No one cares if an adult thinks he's mature.</p>",
+                          "subreddit": "showerthoughts"
+                        },
+                        {
+                          "id": "khetkegDUvKHqWdhDW01",
+                          "contentFiles": [
+                            "content/ec7aeaca-ac0b-48e2-871f-89e89e05b484.jpg"
+                          ],
+                          "createdAt": {
+                            "_seconds": 1650389305,
+                            "_nanoseconds": 0
+                          },
+                          "score": 2,
+                          "flairs": [
+                            "oc",
+                            "nsfw"
+                          ],
+                          "author": "doubledebug",
+                          "isNSFW": true,
+                          "votes": [
+                            {
+                              "uid": "ahcmHWtMmgfGKympUJqubKvt3hn2",
+                              "upvoted": true
+                            },
+                            {
+                              "uid": "vphRsFPWCPhsUpMy4rs0iBrmniZ2",
+                              "upvoted": true
+                            }
+                          ],
+                          "authorId": "ahcmHWtMmgfGKympUJqubKvt3hn2",
+                          "title": "[Homemade] French toast, strawberrys and cream",
+                          "type": "image",
+                          "subreddit": "food"
+                        },
+                        {
+                          "id": "ICExDhFANbcOc6mKy2wm",
+                          "contentFiles": [],
+                          "createdAt": {
+                            "_seconds": 1650215589,
+                            "_nanoseconds": 0
+                          },
+                          "score": 2,
+                          "flairs": [],
+                          "author": "doubledebug",
+                          "isNSFW": false,
+                          "votes": [
+                            {
+                              "uid": "4D1g7kTBRbbZi8eQbB6bHlwgqS72",
+                              "upvoted": true
+                            },
+                            {
+                              "uid": "vphRsFPWCPhsUpMy4rs0iBrmniZ2",
+                              "upvoted": true
+                            }
+                          ],
+                          "authorId": "vphRsFPWCPhsUpMy4rs0iBrmniZ2",
+                          "pollData": {
+                            "options": [
+                              "yes",
+                              "no"
+                            ],
+                            "votes": [
+                              {
+                                "uid": "vphRsFPWCPhsUpMy4rs0iBrmniZ2",
+                                "option": "yes"
+                              },
+                              {
+                                "option": "yes"
+                              }
+                            ]
+                          },
+                          "title": "Do you pee in the shower?",
+                          "type": "poll",
+                          "subreddit": "showerthoughts"
+                        }
+                      ]
+                    }
+                  },
+                  "example2": {
+                    "value": {
+                      "success": false,
+                      "message": "Failed to find users saved posts."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server failure"
+          }
+        },
+        "security": [
+          {
+            "firebase_auth": []
+          }
+        ]
+      }
+    },
+    "/user/avatar/{uid}": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Returns user's avatar photo URL",
+        "operationId": "getUserPhotoURL",
+        "parameters": [
+          {
+            "name": "uid",
+            "in": "path",
+            "description": "User ID",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseStatus"
+                },
+                "examples": {
+                  "example1": {
+                    "value": {
+                      "success": true,
+                      "data": "https://i.imgur.com/rCaE69P.png"
+                    }
+                  },
+                  "example2": {
+                    "value": {
+                      "success": false,
+                      "message": "User with provided ID does not exist."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server failure"
+          }
+        }
+      }
+    },
+    "/user/email": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Finds user's email address based on his username",
+        "operationId": "getUserEmailByUsername",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "description": "User's username",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseStatus"
+                },
+                "examples": {
+                  "example1": {
+                    "value": {
+                      "success": true,
+                      "data": "test@test.com"
+                    }
+                  },
+                  "example2": {
+                    "value": {
+                      "success": false,
+                      "message": "Provided username does not exist."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server failure"
+          }
+        }
+      }
+    },
+    "/user/account": {
+      "delete": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Delete user's account",
+        "description": "Users can only delete their own accounts.",
+        "operationId": "deleteAccount",
+        "responses": {
+          "200": {
+            "description": "Response status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseStatus"
+                },
+                "examples": {
+                  "example1": {
+                    "value": {
+                      "success": true
+                    }
+                  },
+                  "example2": {
+                    "value": {
+                      "success": false,
+                      "message": "Unauthorized request."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server failure"
+          }
+        },
+        "security": [
+          {
+            "firebase_auth": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Updates user's account information",
+        "description": "All body parameters are optional. If successful, returns only the updated fields.",
+        "operationId": "updateAccount",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserAccountBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Response status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseStatus"
+                },
+                "examples": {
+                  "example1": {
+                    "value": {
+                      "success": true,
+                      "data": {
+                        "email": "updated-email@address.com",
+                        "displayName": "updated-display-name"
+                      }
+                    }
+                  },
+                  "example2": {
+                    "value": {
+                      "success": false,
+                      "message": "Failed to update user's account."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server failure"
+          }
+        },
+        "security": [
+          {
+            "firebase_auth": []
+          }
+        ]
+      }
+    },
+    "/user/ban": {
+      "delete": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Ban user's account",
+        "description": "Can be done only by an admin.",
+        "operationId": "banAccount",
+        "parameters": [
+          {
+            "name": "uid",
+            "in": "query",
+            "description": "User ID",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseStatus"
+                },
+                "examples": {
+                  "example1": {
+                    "value": {
+                      "success": true
+                    }
+                  },
+                  "example2": {
+                    "value": {
+                      "success": false,
+                      "message": "User must be an admin to perform this action."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server failure"
+          }
+        },
+        "security": [
+          {
+            "firebase_auth": []
+          }
+        ]
+      }
+    },
+    "/register/with-provider": {
+      "post": {
+        "tags": [
+          "register"
+        ],
+        "summary": "Register a new user account using an auth provider (Google or Github)",
+        "operationId": "registerUserWithProvider",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterWithProviderBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Response status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseStatus"
+                },
+                "examples": {
+                  "example1": {
+                    "value": {
+                      "success": true
+                    }
+                  },
+                  "example2": {
+                    "value": {
+                      "success": false,
+                      "message": "The display name is required."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server failure"
+          }
+        }
+      }
+    },
+    "/register/with-email": {
+      "post": {
+        "tags": [
+          "register"
+        ],
+        "summary": "Register a new user account using an email, username and password",
+        "operationId": "registerUserWithEmail",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterWithEmailBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Response status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseStatus"
+                },
+                "examples": {
+                  "example1": {
+                    "value": {
+                      "success": true,
+                      "data": {
+                        "id": "vphRsFPWCPhsUpMy4rs0iBrmniZ2",
+                        "username": "admin",
+                        "photoURL": "https://i.imgur.com/rCaE69P.png"
+                      }
+                    }
+                  },
+                  "example2": {
+                    "value": {
+                      "success": false,
+                      "message": "The username is required."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server failure"
+          }
+        }
+      }
+    },
+    "/subreddits": {
+      "post": {
+        "tags": [
+          "subreddits"
+        ],
+        "summary": "Create a new subreddit",
+        "operationId": "submitSubreddit",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Subreddit"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Response status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseStatus"
+                },
+                "examples": {
+                  "example1": {
+                    "value": {
+                      "success": true
+                    }
+                  },
+                  "example2": {
+                    "value": {
+                      "success": false,
+                      "message": "Failed to add subreddit to the database."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server failure"
+          }
+        },
+        "security": [
+          {
+            "firebase_auth": []
+          }
+        ]
+      }
+    },
+    "/comments": {
+      "delete": {
+        "tags": [
+          "comments"
+        ],
+        "summary": "Deletes comment with the provided ID",
+        "operationId": "deleteComment",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "ID of the comment to be deleted. Only the author of the comment can delete it.",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseStatus"
+                },
+                "examples": {
+                  "example1": {
+                    "value": {
+                      "success": true
+                    }
+                  },
+                  "example2": {
+                    "value": {
+                      "success": false,
+                      "message": "Only the author of the comment can delete it."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server failure"
+          }
+        },
+        "security": [
+          {
+            "firebase_auth": []
+          }
+        ]
+      }
+    },
+    "/files": {
+      "delete": {
+        "tags": [
+          "files"
+        ],
+        "summary": "Deletes file with the provided storage path",
+        "operationId": "deleteFile",
+        "parameters": [
+          {
+            "name": "path",
+            "in": "query",
+            "description": "Firebase storage path of the file to be deleted",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseStatus"
+                },
+                "examples": {
+                  "example1": {
+                    "value": {
+                      "success": true
+                    }
+                  },
+                  "example2": {
+                    "value": {
+                      "success": false,
+                      "message": "Missing following parameter: path."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server failure"
+          }
+        },
+        "security": [
+          {
+            "firebase_auth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ResponseStatus": {
+        "required": [
+          "success"
+        ],
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string",
+            "description": "Error message describing what went wrong",
+            "example": "Invalid data parameter - username."
+          },
+          "data": {
+            "type": "object",
+            "description": "Requested data for the specific endpoint"
+          }
+        }
+      },
+      "Post": {
+        "required": [
+          "author",
+          "authorId",
+          "createdAt",
+          "flairs",
+          "isNSFW",
+          "score",
+          "subreddit",
+          "title",
+          "type",
+          "votes"
+        ],
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Post title",
+            "example": "My first reddit post"
+          },
+          "type": {
+            "type": "string",
+            "description": "Post type",
+            "enum": [
+              "text",
+              "image",
+              "poll"
+            ]
+          },
+          "content": {
+            "type": "string",
+            "description": "Post content HTML",
+            "example": "<p>Hello reddit! My name is Mike. How does karma work?</p>"
+          },
+          "author": {
+            "type": "string",
+            "description": "Post author's username",
+            "example": "mike32"
+          },
+          "authorId": {
+            "type": "string",
+            "description": "Post author's ID",
+            "example": "Q7gMuSj50MO8mY0IffaYFGNHiSq1"
+          },
+          "createdAt": {
+            "type": "object",
+            "description": "Post creation timestamp",
+            "example": {
+              "value": {
+                "_seconds": 1650215589,
+                "_nanoseconds": 0
+              }
+            }
+          },
+          "votes": {
+            "type": "array",
+            "description": "List of user IDs who upvoted/downvoted the post",
+            "example": [],
+            "items": {
+              "$ref": "#/components/schemas/Vote"
+            }
+          },
+          "score": {
+            "type": "integer",
+            "description": "Computed post score (upvotes and downvotes)"
+          },
+          "subreddit": {
+            "type": "string",
+            "description": "ID of the subreddit where the post was submitted",
+            "example": "showerthoughts"
+          },
+          "contentFiles": {
+            "type": "array",
+            "description": "Array of files (Firebase Storage paths) associated with the post",
+            "example": [],
+            "items": {
+              "type": "string"
+            }
+          },
+          "pollData": {
+            "$ref": "#/components/schemas/Poll"
+          },
+          "flairs": {
+            "type": "array",
+            "description": "Descriptive tags associated with this post",
+            "example": [
+              "oc",
+              "serious"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "isNSFW": {
+            "type": "boolean",
+            "description": "Flag indicating whether to filter out NSFW posts",
+            "example": false
+          }
+        }
+      },
+      "Vote": {
+        "required": [
+          "uid",
+          "upvoted"
+        ],
+        "type": "object",
+        "properties": {
+          "uid": {
+            "type": "string",
+            "description": "Voter's user ID"
+          },
+          "upvoted": {
+            "type": "boolean",
+            "description": "True if the user upvoted the post, otherwise false"
+          }
+        }
+      },
+      "Poll": {
+        "required": [
+          "options",
+          "votes"
+        ],
+        "type": "object",
+        "properties": {
+          "options": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "votes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PollVote"
+            }
+          }
+        },
+        "description": "Data related to a poll-type post"
+      },
+      "PollVote": {
+        "required": [
+          "option",
+          "uid"
+        ],
+        "type": "object",
+        "properties": {
+          "uid": {
+            "type": "string",
+            "description": "Voter's ID"
+          },
+          "option": {
+            "type": "string",
+            "description": "Chosen option from the poll"
+          }
+        }
+      },
+      "Subreddit": {
+        "required": [
+          "description",
+          "followers",
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Name of the subreddit",
+            "example": "showerthoughts"
+          },
+          "description": {
+            "type": "string",
+            "description": "Short text describing what the subreddit community is about",
+            "example": "A subreddit for sharing those miniature epiphanies you have that highlight the oddities within the familiar."
+          },
+          "followers": {
+            "type": "array",
+            "description": "Array of user IDs who follow the subreddit",
+            "example": [],
+            "items": {
+              "type": "string",
+              "description": "User's ID"
+            }
+          },
+          "photoURL": {
+            "type": "string",
+            "description": "URL of the user avatar image",
+            "example": "https://styles.redditmedia.com/t5_2szyo/styles/communityIcon_o033kp1bgrj71.png?width=256&s=d9cf508e8d75afe155697e25ebfd71d297185367"
+          },
+          "flairs": {
+            "type": "array",
+            "description": "Descriptive tags associated with posts from this subreddit",
+            "example": [
+              "oc",
+              "question",
+              "serious"
+            ],
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "UpdateUserAccountBody": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "photoURL": {
+            "type": "string"
+          }
+        }
+      },
+      "RegisterWithProviderBody": {
+        "required": [
+          "id",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "User ID received from the auth provider"
+          },
+          "name": {
+            "type": "string",
+            "description": "User display name received from the auth provider"
+          },
+          "photoURL": {
+            "type": "string",
+            "description": "User avatar image URL received from the auth provider"
+          }
+        }
+      },
+      "RegisterWithEmailBody": {
+        "required": [
+          "email",
+          "password",
+          "username"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email address"
+          },
+          "username": {
+            "type": "string",
+            "description": "User's username"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "firebase_auth": {
+        "type": "apiKey",
+        "description": "Firebase Auth User ID Token",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  }
+}
