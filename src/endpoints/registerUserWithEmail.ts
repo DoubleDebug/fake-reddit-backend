@@ -82,7 +82,19 @@ export async function registerUserWithEmail(
         name: userData.username,
         photoURL: userData.photoURL,
     });
-    res.send(algoliaResponse);
+    if (algoliaResponse.success) {
+        log("Added user's data to Algolia.");
+    } else {
+        log("Failed to add user's data to Algolia.", false);
+    }
 
+    res.send({
+        success: true,
+        data: {
+            id: userData.id,
+            username: userData.username,
+            photoURL: userData.photoURL,
+        },
+    });
     next();
 }

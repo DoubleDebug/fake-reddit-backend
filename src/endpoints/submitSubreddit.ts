@@ -62,6 +62,10 @@ export async function submitSubreddit(
         log(`Added a subreddit with the following ID: ${id}.`);
         res.send({
             success: true,
+            data: {
+                id: id,
+                description: subredditData.description,
+            },
         });
         next();
     } else {

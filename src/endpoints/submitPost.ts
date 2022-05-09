@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { FieldValue, getFirestore, Timestamp } from 'firebase-admin/firestore';
 import { initAlgolia } from '../utils/algolia/initAlgolia.js';
+import { validatePost } from '../utils/dataValidation/validatePost.js';
 import { DB_COLLECTIONS } from '../utils/misc/constants.js';
 import { log } from '../utils/misc/log.js';
 
@@ -11,11 +12,10 @@ export async function submitPost(
 ) {
     const postData = req.body;
 
-    if (!postData) {
-        res.send({
-            success: false,
-            message: 'Invalid data parameter(s).',
-        });
+    // validate data
+    const validation = validatePost(postData);
+    if (!validation.success) {
+        res.send(validation);
         return;
     }
 
@@ -75,6 +75,10 @@ export async function submitPost(
         log(`Added a post with the following ID: ${postRes.id}.`);
         res.send({
             success: true,
+            data: {
+                id: postRes.id,
+                createdAt: new Date().toISOString().slice(0, 10),
+            },
         });
         next();
     } else {
