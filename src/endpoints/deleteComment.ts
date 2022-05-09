@@ -20,7 +20,7 @@ export async function deleteComment(
     }
 
     // check if user is author
-    const uid = res.locals.decodedToken && res.locals.decodedToken.uid;
+    const uid = res.locals.decodedToken?.uid;
     if (!uid) {
         res.send({
             success: false,

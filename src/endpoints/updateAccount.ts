@@ -16,15 +16,7 @@ export async function updateAccount(
     res: Response,
     next: NextFunction
 ) {
-    const decodedToken = res.locals.decodedToken;
-    const uid = decodedToken.uid;
-    if (!decodedToken || !uid) {
-        res.send({
-            success: false,
-            message: 'Unauthorized request.',
-        });
-        return;
-    }
+    const uid = res.locals.decodedToken.uid;
 
     // get parameters
     const email: string | undefined = req.body.email && String(req.body.email);

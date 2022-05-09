@@ -24,7 +24,7 @@ export async function deletePost(
     const postData = post.data();
 
     // check if user is author
-    const uid = res.locals.decodedToken.uid;
+    const uid = res.locals.decodedToken?.uid;
     if (!postData || postData.authorId !== uid) {
         res.send({
             success: false,

@@ -10,15 +10,7 @@ export async function deleteAccount(
     res: Response,
     next: NextFunction
 ) {
-    const decodedToken = res.locals.decodedToken;
-    const uid = decodedToken.uid;
-    if (!decodedToken || !uid) {
-        res.send({
-            success: false,
-            message: 'Unauthorized request.',
-        });
-        return;
-    }
+    const uid = res.locals.decodedToken.uid;
 
     // sign out user everywhere
     const auth = getAuth();
