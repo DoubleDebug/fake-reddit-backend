@@ -2,7 +2,11 @@ import { Request, Response, NextFunction } from 'express';
 import { getAuth } from 'firebase-admin/auth';
 import { log } from '../utils/misc/log.js';
 
-export async function banUser(req: Request, res: Response, next: NextFunction) {
+export async function banAccount(
+    req: Request,
+    res: Response,
+    next: NextFunction
+) {
     // get user id
     const uid = req.query.uid && String(req.query.uid);
     if (!uid) {

@@ -22,7 +22,7 @@ export async function getUserPhotoURL(
         const user = await auth.getUser(uid);
         res.send({
             success: true,
-            photoURL: user.photoURL,
+            data: user.photoURL,
         });
     } catch (error: any) {
         res.send({
