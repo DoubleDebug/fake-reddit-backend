@@ -52,7 +52,7 @@ app.delete('/user/ban', isSignedIn, isAdmin, banAccount);
 // DOCS
 const apiDocument = readFileSync('./docs/OpenAPI.json', 'utf-8');
 const apiDocumentJson = JSON.parse(apiDocument);
-app.use('/', swaggerUi.serve, swaggerUi.setup(apiDocumentJson));
+app.get('/', swaggerUi.setup(apiDocumentJson));
 
 // STARTING SERVER
 app.listen(CONFIG.PORT, CONFIG.HOSTNAME, () => {

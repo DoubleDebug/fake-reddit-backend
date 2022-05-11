@@ -12,7 +12,7 @@ export function validatePost(data: any) {
         !data.authorId ||
         !data.subreddit ||
         !data.flairs ||
-        !data.isNSFW
+        typeof data.isNSFW === 'undefined'
     ) {
         return {
             success: false,
