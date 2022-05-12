@@ -19,19 +19,7 @@ export function validatePost(data: any) {
             message: 'Provided post data is invalid.',
         };
     }
-    if (data.type === 'text' && !data.content) {
-        return {
-            success: false,
-            message: `Post with a type of "text" must have a "content" field.`,
-        };
-    }
-    if (
-        data.type === 'poll' &&
-        (!data.pollData ||
-            !data.pollData.options ||
-            !data.pollData.votes ||
-            !data.pollData.votes.length)
-    ) {
+    if (data.type === 'poll' && (!data.pollData || !data.pollData.options)) {
         return {
             success: false,
             message: `Post with a type of "poll" must have a valid "pollData" field.`,
