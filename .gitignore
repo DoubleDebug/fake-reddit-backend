@@ -5,12 +5,13 @@ node_modules
 build
 
 # Firebase
-serviceAccountKey.json
+/serviceAccountKey.json
 localDB
 .firebaserc
+firebase.json
 
 # Misc
 .DS_Store
 .rest
-.env
+/.env
 *.log
