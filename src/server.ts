@@ -1,30 +1,30 @@
 import express from 'express';
 import cron from 'node-cron';
 import swaggerUi from 'swagger-ui-express';
-import { CONFIG } from './utils/misc/setupConfig.js';
-import { setupMiddleware } from './utils/middleware/setupMiddleware.js';
-import { isSignedIn } from './utils/middleware/isSignedIn.js';
-import { getUserPhotoURL } from './endpoints/getUserPhotoURL.js';
-import { getPosts } from './endpoints/getPosts.js';
-import { getPostsCustom } from './endpoints/getPostsCustom.js';
-import { deletePost } from './endpoints/deletePost.js';
-import { deleteFile } from './endpoints/deleteFile.js';
-import { submitPost } from './endpoints/submitPost.js';
-import { deleteUnusedFiles } from './utils/firestore/deleteUnusedFiles.js';
-import { registerUserWithProvider } from './endpoints/registerUserWithProvider.js';
-import { registerUserWithEmail } from './endpoints/registerUserWithEmail.js';
-import { getUserEmailByUsername } from './endpoints/getUserEmailByUsername.js';
-import { deleteAccount } from './endpoints/deleteAccount.js';
-import { isAdmin } from './utils/middleware/isAdmin.js';
-import { banAccount } from './endpoints/banAccount.js';
-import { deleteComment } from './endpoints/deleteComment.js';
-import { log } from './utils/misc/log.js';
-import { getUserPosts } from './endpoints/getUserPosts.js';
-import { getUserComments } from './endpoints/getUserComments.js';
-import { getSavedPosts } from './endpoints/getSavedPosts.js';
-import { submitSubreddit } from './endpoints/submitSubreddit.js';
-import { updateAccount } from './endpoints/updateAccount.js';
-import { deleteUserAvatars } from './utils/firestore/deleteUserAvatars.js';
+import { CONFIG } from './utils/misc/setupConfig.ts';
+import { setupMiddleware } from './utils/middleware/setupMiddleware.ts';
+import { isSignedIn } from './utils/middleware/isSignedIn.ts';
+import { getUserPhotoURL } from './endpoints/getUserPhotoURL.ts';
+import { getPosts } from './endpoints/getPosts.ts';
+import { getPostsCustom } from './endpoints/getPostsCustom.ts';
+import { deletePost } from './endpoints/deletePost.ts';
+import { deleteFile } from './endpoints/deleteFile.ts';
+import { submitPost } from './endpoints/submitPost.ts';
+import { deleteUnusedFiles } from './utils/firestore/deleteUnusedFiles.ts';
+import { registerUserWithProvider } from './endpoints/registerUserWithProvider.ts';
+import { registerUserWithEmail } from './endpoints/registerUserWithEmail.ts';
+import { getUserEmailByUsername } from './endpoints/getUserEmailByUsername.ts';
+import { deleteAccount } from './endpoints/deleteAccount.ts';
+import { isAdmin } from './utils/middleware/isAdmin.ts';
+import { banAccount } from './endpoints/banAccount.ts';
+import { deleteComment } from './endpoints/deleteComment.ts';
+import { log } from './utils/misc/log.ts';
+import { getUserPosts } from './endpoints/getUserPosts.ts';
+import { getUserComments } from './endpoints/getUserComments.ts';
+import { getSavedPosts } from './endpoints/getSavedPosts.ts';
+import { submitSubreddit } from './endpoints/submitSubreddit.ts';
+import { updateAccount } from './endpoints/updateAccount.ts';
+import { deleteUserAvatars } from './utils/firestore/deleteUserAvatars.ts';
 import { readFileSync } from 'fs';
 
 const app = express();
@@ -56,17 +56,17 @@ app.get('/', swaggerUi.setup(apiDocumentJson));
 
 // STARTING SERVER
 app.listen(CONFIG.PORT, CONFIG.HOSTNAME, () => {
-    log(`Server started at http://${CONFIG.HOSTNAME}:${CONFIG.PORT}`);
-    console.log('----------------------------------------------------------');
+  log(`Server started at http://${CONFIG.HOSTNAME}:${CONFIG.PORT}`);
+  console.log('----------------------------------------------------------');
 });
 
 // FIREBASE MAINTENANCE
 cron.schedule('0 0 * * 1', () => {
-    // delete all unused content from storage every Monday
-    // (cancelled post submission)
-    deleteUnusedFiles();
-    // delete all temporary user avatar images
-    deleteUserAvatars();
+  // delete all unused content from storage every Monday
+  // (cancelled post submission)
+  deleteUnusedFiles();
+  // delete all temporary user avatar images
+  deleteUserAvatars();
 });
 
 // cron.schedule('0 0 * * 1', async () => {

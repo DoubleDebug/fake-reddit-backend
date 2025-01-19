@@ -12,10 +12,11 @@
         "module": "esnext",
         "moduleResolution": "node",
         "resolveJsonModule": true,
-        "noEmit": false,
+        "noEmit": true,
         "jsx": "react-jsx",
         "noImplicitAny": true,
         "noUnusedLocals": true,
+        "allowImportingTsExtensions": true,
         "noUnusedParameters": true,
         "sourceMap": true,
         "outDir": "build"

@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { getFirestore } from 'firebase-admin/firestore';
-import { COMMENTS_PER_PAGE, DB_COLLECTIONS } from '../utils/misc/constants.js';
-import { snapshotToData } from '../utils/firestore/snapshotToData.js';
-import { log } from '../utils/misc/log.js';
+import { COMMENTS_PER_PAGE, DB_COLLECTIONS } from '../utils/misc/constants.ts';
+import { snapshotToData } from '../utils/firestore/snapshotToData.ts';
+import { log } from '../utils/misc/log.ts';
 
 /**
  * REQUIRED PARAMETER:
@@ -12,51 +12,50 @@ import { log } from '../utils/misc/log.js';
  * - limit (default value: 3)
  */
 export async function getUserComments(
-    req: Request,
-    res: Response,
-    next: NextFunction
+  req: Request,
+  res: Response,
+  next: NextFunction
 ) {
-    // get parameters
-    const offset = Number(req.query.offset) || 0;
-    const limit = Number(req.query.limit) || COMMENTS_PER_PAGE;
-    const username = req.query.username;
-    if (!username) {
-        res.send({
-            success: false,
-            message: 'Missing parameter: username.',
-        });
-        return;
-    }
+  // get parameters
+  const offset = Number(req.query.offset) || 0;
+  const limit = Number(req.query.limit) || COMMENTS_PER_PAGE;
+  const username = req.query.username;
+  if (!username) {
+    res.send({
+      success: false,
+      message: 'Missing parameter: username.',
+    });
+    return;
+  }
 
-    // fetch comments
-    const db = getFirestore();
-    const commentsSnapshot = await db
-        .collection(DB_COLLECTIONS.COMMENTS)
-        .where('author', '==', username)
-        .orderBy('createdAt', 'desc')
-        .offset(offset)
-        .limit(limit)
-        .get()
-        .catch((error) => {
-            log(
-                `Failed to fetch user comments from the Firestore database. ${JSON.stringify(
-                    error
-                )}.`,
-                false
-            );
-            res.send({
-                success: false,
-                message:
-                    'Failed to fetch user comments from the Firestore database.',
-            });
-        });
+  // fetch comments
+  const db = getFirestore();
+  const commentsSnapshot = await db
+    .collection(DB_COLLECTIONS.COMMENTS)
+    .where('author', '==', username)
+    .orderBy('createdAt', 'desc')
+    .offset(offset)
+    .limit(limit)
+    .get()
+    .catch((error) => {
+      log(
+        `Failed to fetch user comments from the Firestore database. ${JSON.stringify(
+          error
+        )}.`,
+        false
+      );
+      res.send({
+        success: false,
+        message: 'Failed to fetch user comments from the Firestore database.',
+      });
+    });
 
-    if (commentsSnapshot) {
-        const data = snapshotToData(commentsSnapshot);
-        res.send({
-            success: true,
-            data: data,
-        });
-        next();
-    }
+  if (commentsSnapshot) {
+    const data = snapshotToData(commentsSnapshot);
+    res.send({
+      success: true,
+      data: data,
+    });
+    next();
+  }
 }
