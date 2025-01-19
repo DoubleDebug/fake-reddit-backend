@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
+import type { NextFunction, Request, Response } from 'express';
 import { getAuth } from 'firebase-admin/auth';
 import { validateAccountData } from '../utils/dataValidation/validateAccountData.ts';
 import { log } from '../utils/misc/log.ts';

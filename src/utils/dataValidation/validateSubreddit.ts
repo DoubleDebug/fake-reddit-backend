@@ -1,5 +1,5 @@
 import { getFirestore } from 'firebase-admin/firestore';
-import { ResponseStatus } from '../../types.ts';
+import type { ResponseStatus } from '../../types.ts';
 import { DB_COLLECTIONS } from '../misc/constants.ts';
 
 export async function validateSubreddit(data: any): Promise<ResponseStatus> {
