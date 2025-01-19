@@ -1,5 +1,5 @@
-import { ResponseStatus } from '../../types.ts';
-import { initAlgolia } from '../algolia/initAlgolia.ts';
+import type { ResponseStatus } from '../../types.ts';
+import { getAlgoliaClient } from '../algolia/initAlgolia.ts';
 import { log } from '../misc/log.ts';
 
 export async function addUserToAlgolia(data: {
@@ -8,7 +8,7 @@ export async function addUserToAlgolia(data: {
   photoURL: string;
 }): Promise<ResponseStatus> {
   // init Algolia index
-  const index = initAlgolia('users');
+  const index = getAlgoliaClient();
   if (!index) {
     const errorMessage = 'Failed to initialize Algolia client.';
     log(errorMessage, false);
@@ -22,9 +22,12 @@ export async function addUserToAlgolia(data: {
   let errorMessage = '';
   const response = await index
     .saveObject({
-      objectID: data.objectID,
-      name: data.name,
-      photoURL: data.photoURL,
+      indexName: 'users',
+      body: {
+        objectID: data.objectID,
+        name: data.name,
+        photoURL: data.photoURL,
+      },
     })
     .catch((err: any) => {
       errorMessage += err.message;

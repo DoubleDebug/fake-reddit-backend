@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
 import { getFirestore } from 'firebase-admin/firestore';
-import { initAlgolia } from '../utils/algolia/initAlgolia.ts';
+import { getAlgoliaClient } from '../utils/algolia/initAlgolia.ts';
 import { validateSubreddit } from '../utils/dataValidation/validateSubreddit.ts';
 import { DB_COLLECTIONS } from '../utils/misc/constants.ts';
 import { log } from '../utils/misc/log.ts';
@@ -34,18 +34,16 @@ export async function submitSubreddit(
 
   if (dbResponse) {
     // add document to Algolia
-    const index = initAlgolia('subreddits');
+    const index = getAlgoliaClient();
     if (!index) log('Failed to initialize Algolia client.', false);
     index
-      ?.saveObject(
-        {
+      ?.saveObject({
+        indexName: 'subreddits',
+        body: {
           name: id,
           description: subredditData.description,
         },
-        {
-          autoGenerateObjectIDIfNotExist: true,
-        }
-      )
+      })
       .then(() => log('Added a subreddit to Algolia.'))
       .catch((err: any) =>
         log(

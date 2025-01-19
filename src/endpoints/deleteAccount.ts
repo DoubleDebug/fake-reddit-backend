@@ -2,7 +2,7 @@ import type { Request, Response, NextFunction } from 'express';
 import { getAuth } from 'firebase-admin/auth';
 import { getFirestore } from 'firebase-admin/firestore';
 import { DB_COLLECTIONS } from '../utils/misc/constants.ts';
-import { initAlgolia } from '../utils/algolia/initAlgolia.ts';
+import { getAlgoliaClient } from '../utils/algolia/initAlgolia.ts';
 import { log } from '../utils/misc/log.ts';
 
 export async function deleteAccount(
@@ -28,9 +28,9 @@ export async function deleteAccount(
   if (firestoreResponse) log(`Deleted user from Firestore: ${uid}.`);
 
   // delete user from Algolia
-  const index = initAlgolia('users');
-  index
-    ?.deleteObject(uid)
+  const algClient = getAlgoliaClient();
+  algClient
+    ?.deleteObject({ indexName: 'users', objectID: uid })
     .then(() => log(`Deleted user from Algolia.`))
     .catch((error: any) =>
       log(`Failed to delete user from Algolia. ${error}`, false)

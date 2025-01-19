@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
 import { FieldValue, getFirestore, Timestamp } from 'firebase-admin/firestore';
-import { initAlgolia } from '../utils/algolia/initAlgolia.ts';
+import { getAlgoliaClient } from '../utils/algolia/initAlgolia.ts';
 import { validatePost } from '../utils/dataValidation/validatePost.ts';
 import { DB_COLLECTIONS } from '../utils/misc/constants.ts';
 import { log } from '../utils/misc/log.ts';
@@ -48,11 +48,12 @@ export async function submitPost(
       });
 
     // add document to Algolia
-    const index = initAlgolia('posts');
-    if (!index) log('Failed to initialize Algolia client.', false);
-    index
-      ?.saveObject(
-        {
+    const algClient = getAlgoliaClient();
+    if (!algClient) log('Failed to initialize Algolia client.', false);
+    algClient
+      ?.saveObject({
+        indexName: 'posts',
+        body: {
           id: postRes.id,
           title: postData.title,
           content: postData.content,
@@ -60,10 +61,7 @@ export async function submitPost(
           createdAt: new Date().toISOString().slice(0, 10),
           subreddit: postData.subreddit,
         },
-        {
-          autoGenerateObjectIDIfNotExist: true,
-        }
-      )
+      })
       .then(() => log('Added a post to Algolia.'))
       .catch((err: any) =>
         log(`Failed to add a post to Algolia. ${JSON.stringify(err)}.`, false)
