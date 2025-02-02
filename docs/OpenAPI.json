@@ -7,12 +7,8 @@
     },
     "servers": [
         {
-            "url": "https://fake-reddit-api.herokuapp.com",
-            "description": "Live preview hosted on Heroku"
-        },
-        {
             "url": "http://localhost:5000",
-            "description": "Temporary local server"
+            "description": "Local server"
         }
     ],
     "tags": [
