@@ -32,7 +32,7 @@ export async function registerUserWithProvider(
     name: req.body.name,
     photoURL:
       req.body.photoURL ||
-      `https://avatars.dicebear.com/api/human/${req.body.name}.svg`,
+      `https://api.dicebear.com/9.x/micah/svg?seed=${req.body.name}`,
   };
 
   // update Firebase Auth info

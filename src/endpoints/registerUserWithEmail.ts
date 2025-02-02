@@ -1,10 +1,10 @@
-import type { Request, Response, NextFunction } from "express";
-import { getAuth } from "firebase-admin/auth";
-import { getFirestore, Timestamp } from "firebase-admin/firestore";
-import { addUserToAlgolia } from "../utils/algolia/addUserToAlgolia.ts";
-import { validateUserWithEmail } from "../utils/dataValidation/validateUserWithEmail.ts";
-import { DB_COLLECTIONS } from "../utils/misc/constants.ts";
-import { log } from "../utils/misc/log.ts";
+import type { Request, Response, NextFunction } from 'express';
+import { getAuth } from 'firebase-admin/auth';
+import { getFirestore, Timestamp } from 'firebase-admin/firestore';
+import { addUserToAlgolia } from '../utils/algolia/addUserToAlgolia.ts';
+import { validateUserWithEmail } from '../utils/dataValidation/validateUserWithEmail.ts';
+import { DB_COLLECTIONS } from '../utils/misc/constants.ts';
+import { log } from '../utils/misc/log.ts';
 
 export async function registerUserWithEmail(
   req: Request,
@@ -27,11 +27,11 @@ export async function registerUserWithEmail(
 
   // format data
   const userData = {
-    id: "",
+    id: '',
     email: req.body.email,
     username: req.body.username,
     password: req.body.password,
-    photoURL: `https://avatars.dicebear.com/api/human/${req.body.username}.svg`,
+    photoURL: `https://api.dicebear.com/9.x/micah/svg?seed=${req.body.username}`,
   };
 
   // create user in Firebase Auth
