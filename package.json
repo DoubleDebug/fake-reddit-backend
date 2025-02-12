@@ -1,12 +1,11 @@
 {
     "name": "fake-server-backend",
     "version": "1.0.0",
-    "type": "module",
     "description": "React clone backend",
     "main": "index.js",
     "scripts": {
-        "build": "rimraf ./build && tsc",
-        "start": "npm run build && node ./build/server.js",
+        "build": "rimraf ./build && npx tsc",
+        "start": "node ./build/server.js",
         "dev": "nodemon",
         "db": "firebase emulators:start --import localDB --export-on-exit=localDB"
     },

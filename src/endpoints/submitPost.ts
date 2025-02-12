@@ -1,9 +1,9 @@
 import type { Request, Response, NextFunction } from 'express';
 import { FieldValue, getFirestore, Timestamp } from 'firebase-admin/firestore';
-import { getAlgoliaClient } from '../utils/algolia/initAlgolia.ts';
-import { validatePost } from '../utils/dataValidation/validatePost.ts';
-import { DB_COLLECTIONS } from '../utils/misc/constants.ts';
-import { log } from '../utils/misc/log.ts';
+import { getAlgoliaClient } from '../utils/algolia/initAlgolia';
+import { validatePost } from '../utils/dataValidation/validatePost';
+import { DB_COLLECTIONS } from '../utils/misc/constants';
+import { log } from '../utils/misc/log';
 
 export async function submitPost(
   req: Request,

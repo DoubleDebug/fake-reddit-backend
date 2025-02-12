@@ -1,8 +1,8 @@
 import type { NextFunction, Request, Response } from 'express';
 import { getFirestore } from 'firebase-admin/firestore';
-import { COMMENTS_PER_PAGE, DB_COLLECTIONS } from '../utils/misc/constants.ts';
-import { snapshotToData } from '../utils/firestore/snapshotToData.ts';
-import { log } from '../utils/misc/log.ts';
+import { COMMENTS_PER_PAGE, DB_COLLECTIONS } from '../utils/misc/constants';
+import { snapshotToData } from '../utils/firestore/snapshotToData';
+import { log } from '../utils/misc/log';
 
 /**
  * REQUIRED PARAMETER:

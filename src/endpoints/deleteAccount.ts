@@ -1,9 +1,9 @@
 import type { Request, Response, NextFunction } from 'express';
 import { getAuth } from 'firebase-admin/auth';
 import { getFirestore } from 'firebase-admin/firestore';
-import { DB_COLLECTIONS } from '../utils/misc/constants.ts';
-import { getAlgoliaClient } from '../utils/algolia/initAlgolia.ts';
-import { log } from '../utils/misc/log.ts';
+import { DB_COLLECTIONS } from '../utils/misc/constants';
+import { getAlgoliaClient } from '../utils/algolia/initAlgolia';
+import { log } from '../utils/misc/log';
 
 export async function deleteAccount(
   _: Request,

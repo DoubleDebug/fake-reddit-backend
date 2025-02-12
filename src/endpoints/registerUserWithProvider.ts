@@ -1,11 +1,11 @@
 import type { Request, Response, NextFunction } from 'express';
 import { getAuth } from 'firebase-admin/auth';
 import { getFirestore, Timestamp } from 'firebase-admin/firestore';
-import { addUserToAlgolia } from '../utils/algolia/addUserToAlgolia.ts';
-import { validateUserWithProvider } from '../utils/dataValidation/validateUserWithProvider.ts';
-import { DB_COLLECTIONS } from '../utils/misc/constants.ts';
-import { generateUsername } from '../utils/misc/generateUsername.ts';
-import { log } from '../utils/misc/log.ts';
+import { addUserToAlgolia } from '../utils/algolia/addUserToAlgolia';
+import { validateUserWithProvider } from '../utils/dataValidation/validateUserWithProvider';
+import { DB_COLLECTIONS } from '../utils/misc/constants';
+import { generateUsername } from '../utils/misc/generateUsername';
+import { log } from '../utils/misc/log';
 
 export async function registerUserWithProvider(
   req: Request,

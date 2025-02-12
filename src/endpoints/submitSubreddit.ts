@@ -1,9 +1,9 @@
 import type { Request, Response, NextFunction } from 'express';
 import { getFirestore } from 'firebase-admin/firestore';
-import { getAlgoliaClient } from '../utils/algolia/initAlgolia.ts';
-import { validateSubreddit } from '../utils/dataValidation/validateSubreddit.ts';
-import { DB_COLLECTIONS } from '../utils/misc/constants.ts';
-import { log } from '../utils/misc/log.ts';
+import { getAlgoliaClient } from '../utils/algolia/initAlgolia';
+import { validateSubreddit } from '../utils/dataValidation/validateSubreddit';
+import { DB_COLLECTIONS } from '../utils/misc/constants';
+import { log } from '../utils/misc/log';
 
 export async function submitSubreddit(
   req: Request,

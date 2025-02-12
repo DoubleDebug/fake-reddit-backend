@@ -1,6 +1,6 @@
 import { getFirestore } from 'firebase-admin/firestore';
-import type { ResponseStatus } from '../../types.ts';
-import { DB_COLLECTIONS } from '../misc/constants.ts';
+import type { ResponseStatus } from '../../types';
+import { DB_COLLECTIONS } from '../misc/constants';
 
 export async function validateUserWithEmail(
   data: any

@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
 import { getStorage } from 'firebase-admin/storage';
-import { log } from '../utils/misc/log.ts';
+import { log } from '../utils/misc/log';
 
 export async function deleteFile(
   req: Request,

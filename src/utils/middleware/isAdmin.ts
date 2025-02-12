@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from 'express';
 import { getFirestore } from 'firebase-admin/firestore';
-import { DB_COLLECTIONS } from '../misc/constants.ts';
+import { DB_COLLECTIONS } from '../misc/constants';
 
 export async function isAdmin(_: Request, res: Response, next: NextFunction) {
   // get user id

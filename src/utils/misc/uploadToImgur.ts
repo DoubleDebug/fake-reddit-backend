@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { IMGUR_API_URL } from './constants.ts';
+import { IMGUR_API_URL } from './constants';
 
 /**
  * Uploads the image to Imgur and returns the URL.

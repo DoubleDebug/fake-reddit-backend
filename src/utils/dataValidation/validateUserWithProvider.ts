@@ -1,4 +1,4 @@
-import type { ResponseStatus } from '../../types.ts';
+import type { ResponseStatus } from '../../types';
 
 export function validateUserWithProvider(data: any): ResponseStatus {
   if (typeof data.id !== 'string')

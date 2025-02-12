@@ -1,7 +1,7 @@
 import { getFirestore } from 'firebase-admin/firestore';
-import { DELETE_BATCH_SIZE } from '../misc/constants.ts';
-import { log } from '../misc/log.ts';
-import { deleteQueryBatch } from './deleteQueryBatch.ts';
+import { DELETE_BATCH_SIZE } from '../misc/constants';
+import { log } from '../misc/log';
+import { deleteQueryBatch } from './deleteQueryBatch';
 
 /**
  * Example code from Firebase documentation:

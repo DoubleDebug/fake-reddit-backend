@@ -1,8 +1,8 @@
 import type { NextFunction, Request, Response } from 'express';
 import { getAuth } from 'firebase-admin/auth';
-import { validateAccountData } from '../utils/dataValidation/validateAccountData.ts';
-import { log } from '../utils/misc/log.ts';
-import { uploadToImgur } from '../utils/misc/uploadToImgur.ts';
+import { validateAccountData } from '../utils/dataValidation/validateAccountData';
+import { log } from '../utils/misc/log';
+import { uploadToImgur } from '../utils/misc/uploadToImgur';
 
 /**
  * BODY PARAMETERS:

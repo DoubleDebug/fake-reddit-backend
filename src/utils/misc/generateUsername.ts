@@ -1,6 +1,6 @@
 import { getFirestore } from 'firebase-admin/firestore';
-import { DB_COLLECTIONS } from './constants.ts';
-import { generateRandomNumber } from './generateRandomNumber.ts';
+import { DB_COLLECTIONS } from './constants';
+import { generateRandomNumber } from './generateRandomNumber';
 
 /**
  * @returns a unique username in the format: "user1234".

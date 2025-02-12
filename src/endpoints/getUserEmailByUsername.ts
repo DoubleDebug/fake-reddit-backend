@@ -1,7 +1,7 @@
 import type { Request, Response, NextFunction } from 'express';
 import { getAuth } from 'firebase-admin/auth';
 import { getFirestore } from 'firebase-admin/firestore';
-import { DB_COLLECTIONS } from '../utils/misc/constants.ts';
+import { DB_COLLECTIONS } from '../utils/misc/constants';
 
 export async function getUserEmailByUsername(
   req: Request,

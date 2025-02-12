@@ -1,6 +1,6 @@
 import { getStorage } from 'firebase-admin/storage';
-import { STORAGE_FOLDERS } from '../misc/constants.ts';
-import { log } from '../misc/log.ts';
+import { STORAGE_FOLDERS } from '../misc/constants';
+import { log } from '../misc/log';
 
 export async function deleteUserAvatars() {
   const storage = getStorage();

@@ -1,10 +1,10 @@
 import type { NextFunction, Request, Response } from 'express';
 import { getFirestore } from 'firebase-admin/firestore';
 import { getStorage } from 'firebase-admin/storage';
-import { getAlgoliaClient } from '../utils/algolia/initAlgolia.ts';
-import { DB_COLLECTIONS } from '../utils/misc/constants.ts';
-import { deleteQueryBatch } from '../utils/firestore/deleteQueryBatch.ts';
-import { log } from '../utils/misc/log.ts';
+import { getAlgoliaClient } from '../utils/algolia/initAlgolia';
+import { DB_COLLECTIONS } from '../utils/misc/constants';
+import { deleteQueryBatch } from '../utils/firestore/deleteQueryBatch';
+import { log } from '../utils/misc/log';
 
 export async function deletePost(
   req: Request,

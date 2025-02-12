@@ -1,7 +1,7 @@
 import { getFirestore } from 'firebase-admin/firestore';
 import { getStorage } from 'firebase-admin/storage';
-import { DB_COLLECTIONS, STORAGE_FOLDERS } from '../misc/constants.ts';
-import { log } from '../misc/log.ts';
+import { DB_COLLECTIONS, STORAGE_FOLDERS } from '../misc/constants';
+import { log } from '../misc/log';
 
 export async function deleteUnusedFiles() {
   const storage = getStorage();

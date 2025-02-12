@@ -1,6 +1,6 @@
 import { getAuth } from 'firebase-admin/auth';
-import type { ResponseStatusWithData } from '../../types.ts';
-import { validateEmail, validatePassword } from './validateUserWithEmail.ts';
+import type { ResponseStatusWithData } from '../../types';
+import { validateEmail, validatePassword } from './validateUserWithEmail';
 
 export async function validateAccountData(
   uid: string,

@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
 import { getAuth } from 'firebase-admin/auth';
-import { log } from '../utils/misc/log.ts';
+import { log } from '../utils/misc/log';
 
 export async function banAccount(
   req: Request,

@@ -1,6 +1,6 @@
-import type { ResponseStatus } from '../../types.ts';
-import { getAlgoliaClient } from '../algolia/initAlgolia.ts';
-import { log } from '../misc/log.ts';
+import type { ResponseStatus } from '../../types';
+import { getAlgoliaClient } from '../algolia/initAlgolia';
+import { log } from '../misc/log';
 
 export async function addUserToAlgolia(data: {
   objectID: string;
