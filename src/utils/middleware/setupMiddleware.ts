@@ -8,7 +8,7 @@ export function setupMiddleware(app: Express) {
   app.use(swaggerUi.serve);
   app.use(
     cors({
-      origin: process.env.CLIENT_URL,
+      origin: [process.env.CLIENT_URL!, 'http://localhost:5173'],
     })
   );
 }
